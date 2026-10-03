@@ -15,8 +15,12 @@ func set_as_local():
 
 func _physics_process(delta: float) -> void:
 	
-	if not is_local:
-		return
+	if is_local:
+		_process_local(delta)
+	else:
+		_process_remote(delta)
+	
+func _process_local(delta: float) -> void:
 	
 	velocity += get_gravity() * delta
 
@@ -30,3 +34,8 @@ func _physics_process(delta: float) -> void:
 	velocity.z = lerp(velocity.z, direction.z * SPEED, ACCELERATION * delta)
 
 	move_and_slide()
+	
+	Network.send_identified("pos:" + str(global_position.x) + "," + str(global_position.y) + "," + str(global_position.z))
+
+func _process_remote(_delta: float) -> void:
+	Network.send(name + ";pos");

@@ -1,6 +1,7 @@
 extends Node
 
 var _peer: PacketPeerUDP
+var _player_id := ""
 
 func _ready() -> void:
 	_peer = PacketPeerUDP.new()
@@ -14,20 +15,18 @@ func game_connect(ip: String, port: int) -> bool:
 	
 	# repeatedly send a message asking to know which player we are
 	# (returning false if we get no response)
-	var role := -1
-	
 	for i in range(0, 10):
 		
-		send("rolereq")
+		send("?")
 		await get_tree().create_timer(1.0).timeout
 		
 		var res := read_one_packet()
-		
-		if res.begins_with("roleset"):
-			role = res.to_int() # automatically strips the prefix
+		if res.begins_with("?"):
+			_player_id = res.substr(1)
 			break
 	
-	if role == -1:
+	# could not reach server
+	if _player_id == "":
 		_peer.close()
 		return false
 	
@@ -36,17 +35,38 @@ func game_connect(ip: String, port: int) -> bool:
 	await get_tree().scene_changed
 	
 	# take control of that player
-	print("Assuming role: ", role)
-	get_tree().current_scene.get_node("Player" + str(role)).set_as_local()
+	get_tree().current_scene.get_node(_player_id).set_as_local()
 	
 	return true
 
 func game_disconnect():
 	_peer.close()
+	_player_id = ""
 	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 func send(msg: String):
 	_peer.put_packet(msg.to_utf8_buffer())
+
+## Sends a message prefixed with the player id of the client.
+func send_identified(msg: String):
+	send(_player_id + ":" + msg)
+
+func _physics_process(delta: float) -> void:
+	
+	if _player_id == "":
+		return
+	
+	var msg_parts = Network.read_one_packet().split(":")
+	
+	match msg_parts[0]:
+		"pos":
+			var player = get_tree().current_scene.get_node(msg_parts[1])
+			
+			if player:
+				var xyz = msg_parts[2].split(",")
+				player.x = xyz[0].to_float()
+				player.y = xyz[1].to_float()
+				player.z = xyz[2].to_float()
 
 func read_one_packet() -> String:
 	
