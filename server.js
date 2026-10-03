@@ -57,7 +57,7 @@ var message_types = {
             players[player_id].y = y;
             players[player_id].z = z;
         },
-        "update_client": (player_id) => {
+        "update_client": (client, player_id) => {
             send(client, "pos:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z);
         }
     },
@@ -67,7 +67,7 @@ var message_types = {
             players[player_id].pitch = pitch;
             players[player_id].yaw = yaw;
         },
-        "update_client": (player_id) => {
+        "update_client": (client, player_id) => {
             send(client, "rot:" + player_id + ":" + players[player_id].pitch + "," + players[player_id].yaw);
         }
     }
