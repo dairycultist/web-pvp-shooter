@@ -23,13 +23,7 @@ vertical = true
 
 [node name="Label" type="Label" parent="FlowContainer" unique_id=1851511014]
 layout_mode = 2
-text = "main menu
-if you try to connect to a
-non-existent server, you'll
-still join a game, it's just nothing
-server-y will happen because
-there's no server to make
-the game happen"
+text = "Main Menu"
 
 [node name="IP" type="TextEdit" parent="FlowContainer" unique_id=215945519]
 custom_minimum_size = Vector2(300, 36)
@@ -41,7 +35,12 @@ custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "Port (default: 19132)"
 
-[node name="Button" type="Button" parent="FlowContainer" unique_id=1562453722]
+[node name="Button" type="Button" parent="FlowContainer" unique_id=1562453722 node_paths=PackedStringArray("label")]
 layout_mode = 2
 text = "Connect"
 script = ExtResource("1_y7k74")
+label = NodePath("../Warning Label")
+
+[node name="Warning Label" type="Label" parent="FlowContainer" unique_id=2022052426]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)

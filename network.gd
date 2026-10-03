@@ -4,15 +4,30 @@ var _peer: PacketPeerUDP
 
 func _ready() -> void:
 	_peer = PacketPeerUDP.new()
-	_peer.bind(19132)
 
 ## Handles establishing a connection to the server, loading the game scene, and
 ## setting up the player character.
-func game_connect(ip: String, port: int):
+func game_connect(ip: String, port: int) -> bool:
+	
+	_peer.bind(port + 1)
 	_peer.set_dest_address(ip, port)
+	
+	# repeatedly send a message asking to know which player we are
+	# (returning false if we get no response)
+	for i in range(0, 10):
+		send("rolereq")
+		await get_tree().create_timer(1.0).timeout
+		read_one_packet()
+	
+	return false
+	
+	# change scene
 	get_tree().change_scene_to_file("res://game.tscn")
 	await get_tree().scene_changed
-	print("done!")
+	
+	# take control of that player
+	
+	return true
 
 func game_disconnect():
 	pass

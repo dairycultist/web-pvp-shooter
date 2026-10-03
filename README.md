@@ -2,8 +2,6 @@
 
 literally just sending raw binary via [UDP](https://docs.godotengine.org/en/stable/classes/class_packetpeerudp.html#class-packetpeerudp)
 
-https://gist.github.com/sid24rane/6e6698e93360f2694e310dd347a2e2eb
-
 Client made in Godot for web platforms with a server backend in Node.js.
 
 - 2v2 game
