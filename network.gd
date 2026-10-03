@@ -58,15 +58,17 @@ func _physics_process(delta: float) -> void:
 	
 	var msg_parts = Network.read_one_packet().split(":")
 	
+	print(msg_parts)
+	
 	match msg_parts[0]:
 		"pos":
 			var player = get_tree().current_scene.get_node(msg_parts[1])
 			
 			if player:
 				var xyz = msg_parts[2].split(",")
-				player.x = xyz[0].to_float()
-				player.y = xyz[1].to_float()
-				player.z = xyz[2].to_float()
+				player.global_position.x = xyz[0].to_float()
+				player.global_position.y = xyz[1].to_float()
+				player.global_position.z = xyz[2].to_float()
 
 func read_one_packet() -> String:
 	

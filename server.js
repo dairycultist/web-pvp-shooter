@@ -3,9 +3,11 @@ var server = require("dgram").createSocket("udp4");
 class Player { // Player, not Client, because we know nothing that links a player to a client (i.e. IP)
   
     constructor(keepalive) {
-        this.x = Math.random() * 6.0 - 3.0;
+
+        // will immediately be updated by the client so the initial values don't matter
+        this.x = 0.0;
         this.y = 0.0;
-        this.z = Math.random() * 6.0 - 3.0;
+        this.z = 0.0;
 
         // unix time of the last message; if it's over a threshold we can assume
         // they disconnected, allowing us to free up the ID for future use
@@ -51,7 +53,10 @@ server.on("message", (msg, info) => {
     // client wants to receive info about someone else on the server
     } else if (msg.includes(";")) {
 
-        const [player_id, type] = msg.split(":");
+        const [player_id, type] = msg.split(";");
+
+        if (!players[player_id])
+            return;
 
         switch (type) {
             
