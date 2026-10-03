@@ -20,7 +20,7 @@ func game_connect(ip: String, port: int) -> bool:
 		send(";reqid")
 		await get_tree().create_timer(1.0).timeout
 		
-		var res := read_one_packet()
+		var res := _read_one_packet()
 		if res.begins_with("="):
 			_player_id = res.substr(1)
 			break
@@ -36,10 +36,12 @@ func game_connect(ip: String, port: int) -> bool:
 	
 	# take control of that player
 	get_tree().current_scene.get_node(_player_id).set_as_local()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	return true
 
 func game_disconnect():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_peer.close()
 	_player_id = ""
 	get_tree().change_scene_to_file("res://scenes/title.tscn")
@@ -56,7 +58,7 @@ func _physics_process(_delta: float) -> void:
 	if _player_id == "":
 		return
 	
-	var msg_parts = Network.read_one_packet().split(":")
+	var msg_parts = Network._read_one_packet().split(":")
 	
 	match msg_parts[0]:
 		"pos":
@@ -66,8 +68,14 @@ func _physics_process(_delta: float) -> void:
 				player.global_position.x = xyz[0].to_float()
 				player.global_position.y = xyz[1].to_float()
 				player.global_position.z = xyz[2].to_float()
+		"rot":
+			var player = get_tree().current_scene.get_node(msg_parts[1])
+			if player:
+				var py = msg_parts[2].split(",")
+				player.get_node("Camera").global_rotation.x = py[0].to_float()
+				player.global_rotation.y = py[1].to_float()
 
-func read_one_packet() -> String:
+func _read_one_packet() -> String:
 	
 	if _peer.get_available_packet_count() > 0:
 		var array_bytes = _peer.get_packet()

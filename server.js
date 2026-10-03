@@ -1,23 +1,5 @@
 var server = require("dgram").createSocket("udp4");
 
-class Player { // Player, not Client, because we know nothing that links a player to a client (i.e. IP)
-  
-    constructor(keepalive) {
-
-        // will immediately be updated by the client so the initial values don't matter
-        this.x = 0.0;
-        this.y = 0.0;
-        this.z = 0.0;
-
-        // unix time of the last message; if it's over a threshold we can assume
-        // they disconnected, allowing us to free up the ID for future use
-        this.keepalive = Date.now();
-    }
-}
-
-// maps player id to Player object
-var players = {};
-
 function on_error(error) {
     if (!error)
         return;
@@ -25,8 +7,31 @@ function on_error(error) {
     server.close();
 }
 
-server.on("error", on_error);
+function send(client, msg) {
+    server.send(msg, client.port, client.address, on_error);
+}
 
+class Player {
+  
+    constructor(keepalive) {
+
+        // will immediately be updated by the client so the initial values don't matter
+        this.x = 0.0;
+        this.y = 0.0;
+        this.z = 0.0;
+        this.pitch = 0.0;
+        this.yaw = 0.0;
+
+        // unix time of the last message; if it's over a threshold we can assume
+        // they disconnected, allowing us to free up the ID for future use
+        this.keepalive = Date.now();
+    }
+}
+
+// player id => Player
+var players = {};
+
+// message type => handlers
 var message_types = {
     "reqid": {
         "update_client": (client, player_id) => {
@@ -38,7 +43,7 @@ var message_types = {
 
                 if (!players[player_id]) {
 
-                    server.send("=" + player_id, client.port, client.address, on_error);
+                    send(client, "=" + player_id);
                     players[player_id] = new Player();
                     return;
                 }
@@ -53,36 +58,48 @@ var message_types = {
             players[player_id].z = z;
         },
         "update_client": (player_id) => {
-            server.send("pos:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z, client.port, client.address, on_error);
+            send(client, "pos:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z);
+        }
+    },
+    "rot": {
+        "update_server": (client, player_id, content) => {
+            const [pitch, yaw] = content.split(",");
+            players[player_id].pitch = pitch;
+            players[player_id].yaw = yaw;
+        },
+        "update_client": (player_id) => {
+            send(client, "rot:" + player_id + ":" + players[player_id].pitch + "," + players[player_id].yaw);
         }
     }
 };
 
+server.on("error", on_error);
+
 server.on("message", (msg, client) => {
 
     msg = msg.toString(); // since it arrives as binary
-    console.log(`Received "${ msg }" (${ msg.length } bytes) from ${ client.address }:${ client.port }`);
+    // console.log(`Received "${ msg }" (${ msg.length } bytes) from ${ client.address }:${ client.port }`);
 
-    // client wants to update information about themself on the server
+    // client wants to update information on the server
     if (msg.includes(":")) {
 
         const [player_id, type, content] = msg.split(":");
 
-        // you must request a player id before using it!
+        // if message is about a player, they must have first been requested
         if (!players[player_id])
-            return
+            return;
 
         players[player_id].keepalive = Date.now();
 
         if (message_types[type]["update_server"])
             message_types[type]["update_server"](client, player_id, content);
     
-    // client wants to receive info from the server (either about someone or just general info)
+    // client wants to receive info from the server
     } else if (msg.includes(";")) {
 
         const [player_id, type] = msg.split(";");
 
-        // can't get info about a player that doesn't exist
+        // if message is about a player, they must have first been requested
         if (!(players[player_id] || player_id === ""))
             return;
 
