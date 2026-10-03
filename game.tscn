@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://davwxhburtfja"]
+
+[ext_resource type="Texture2D" uid="uid://dmqtpmtafpq7v" path="res://prototype_grid_dark_large.png" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://d17iudcyf5k2" path="res://player.gd" id="2_fj7yv"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_lxpj2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fj7yv"]
+albedo_texture = ExtResource("1_f3sb7")
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lxpj2"]
+size = Vector2(10, 10)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lxpj2"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lxpj2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lxpj2"]
+size = Vector3(1, 0.5, 0.5)
+
+[node name="World" type="Node3D" unique_id=1063087699]
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1223594724]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=478897368]
+shape = SubResource("WorldBoundaryShape3D_lxpj2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=577222754]
+material_override = SubResource("StandardMaterial3D_fj7yv")
+mesh = SubResource("PlaneMesh_lxpj2")
+
+[node name="Player1" type="CharacterBody3D" parent="." unique_id=1757641916]
+script = ExtResource("2_fj7yv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player1" unique_id=23304881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_lxpj2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player1" unique_id=1254977205]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_lxpj2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player1" unique_id=1628102172]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.25)
+mesh = SubResource("BoxMesh_lxpj2")
+
+[node name="Camera3D" type="Camera3D" parent="Player1" unique_id=785165489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1080060669]
+transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.3713914, 0, 0, 0)
