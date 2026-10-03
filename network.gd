@@ -1,7 +1,11 @@
 extends Node
 
+const TPS := 20.0
+
 var _peer: PacketPeerUDP
 var _player_id := ""
+var _current_scene: Node
+var _packet_processor_thread: Thread
 
 func _ready() -> void:
 	_peer = PacketPeerUDP.new()
@@ -33,10 +37,15 @@ func game_connect(ip: String, port: int) -> bool:
 	# change scene
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 	await get_tree().scene_changed
+	_current_scene = get_tree().current_scene
 	
 	# take control of that player
-	get_tree().current_scene.get_node(_player_id).set_as_local()
+	_current_scene.get_node(_player_id).set_as_local()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	# begin processing incoming packets
+	_packet_processor_thread = Thread.new()
+	_packet_processor_thread.start(_process_packets)
 	
 	return true
 
@@ -44,6 +53,8 @@ func game_disconnect():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_peer.close()
 	_player_id = ""
+	_current_scene = null
+	_packet_processor_thread.wait_to_finish()
 	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 func send(msg: String):
@@ -53,27 +64,32 @@ func send(msg: String):
 func send_identified(msg: String):
 	send(_player_id + ":" + msg)
 
-func _physics_process(_delta: float) -> void:
+func _process_packets() -> void:
 	
-	if _player_id == "":
-		return
+	var msg_parts
 	
-	var msg_parts = Network._read_one_packet().split(":")
+	while true:
+		
+		if _player_id == "":
+			continue
+		
+		msg_parts = Network._read_one_packet().split(":")
+		
+		call_deferred("_process_packet", msg_parts)
+
+func _process_packet(msg_parts) -> void:
 	
 	match msg_parts[0]:
 		"pos":
-			var player = get_tree().current_scene.get_node(msg_parts[1])
+			var player = _current_scene.get_node(msg_parts[1])
 			if player:
 				var xyz = msg_parts[2].split(",")
-				player.global_position.x = xyz[0].to_float()
-				player.global_position.y = xyz[1].to_float()
-				player.global_position.z = xyz[2].to_float()
+				player.goal_position = Vector3(xyz[0].to_float(), xyz[1].to_float(), xyz[2].to_float())
 		"rot":
-			var player = get_tree().current_scene.get_node(msg_parts[1])
+			var player = _current_scene.get_node(msg_parts[1])
 			if player:
 				var py = msg_parts[2].split(",")
-				player.get_node("Camera").global_rotation.x = py[0].to_float()
-				player.global_rotation.y = py[1].to_float()
+				player.goal_rotation = Vector3(py[0].to_float(), py[1].to_float(), 0.0)
 
 func _read_one_packet() -> String:
 	
