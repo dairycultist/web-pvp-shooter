@@ -9,7 +9,6 @@ func _ready() -> void:
 ## setting up the player character.
 func game_connect(ip: String, port: int) -> bool:
 	
-	_peer.close() # in case any was open
 	_peer.bind(port + 1)
 	_peer.set_dest_address(ip, port)
 	
@@ -29,19 +28,22 @@ func game_connect(ip: String, port: int) -> bool:
 			break
 	
 	if role == -1:
+		_peer.close()
 		return false
 	
 	# change scene
-	get_tree().change_scene_to_file("res://game.tscn")
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
 	await get_tree().scene_changed
 	
-	# TODO take control of that player
-	print("I'm role ", role)
+	# take control of that player
+	print("Assuming role: ", role)
+	get_tree().current_scene.get_node("Player" + str(role)).set_as_local()
 	
 	return true
 
 func game_disconnect():
-	pass
+	_peer.close()
+	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 func send(msg: String):
 	_peer.put_packet(msg.to_utf8_buffer())

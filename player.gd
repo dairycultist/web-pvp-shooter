@@ -4,12 +4,19 @@ const SPEED = 5.0
 const ACCELERATION = 10.0
 const JUMP_VELOCITY = 4.5
 
-# TODO all players start controlled remotely; making them local deletes their
-# mesh, allows them to be client-controlled (not server), enables their camera, etc
+var is_local := false
+
+## All players start controlled by the server; making them local deletes their
+## mesh, allows them to be client-controlled, enables their camera, etc
 func set_as_local():
-	pass
+	$Mesh.queue_free()
+	$Camera.make_current()
+	is_local = true
 
 func _physics_process(delta: float) -> void:
+	
+	if not is_local:
+		return
 	
 	velocity += get_gravity() * delta
 

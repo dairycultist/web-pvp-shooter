@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://davwxhburtfja"]
+
+[ext_resource type="Texture2D" uid="uid://dmqtpmtafpq7v" path="res://prototype_grid_dark_large.png" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://d18s3cdq05uem" path="res://player.tscn" id="2_yqjtg"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_lxpj2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fj7yv"]
+albedo_texture = ExtResource("1_f3sb7")
+uv1_scale = Vector3(10, 10, 10)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lxpj2"]
+size = Vector2(10, 10)
+
+[node name="World" type="Node3D" unique_id=1063087699]
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1223594724]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=478897368]
+shape = SubResource("WorldBoundaryShape3D_lxpj2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=577222754]
+material_override = SubResource("StandardMaterial3D_fj7yv")
+mesh = SubResource("PlaneMesh_lxpj2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1080060669]
+transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.3713914, 0, 0, 0)
+
+[node name="Player1" parent="." unique_id=26882091 instance=ExtResource("2_yqjtg")]
+
+[node name="Player2" parent="." unique_id=968177143 instance=ExtResource("2_yqjtg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4292595, 0, 3.358309)
+
+[node name="Player3" parent="." unique_id=1313471293 instance=ExtResource("2_yqjtg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8315096, 0, 1.0110497)
+
+[node name="Player4" parent="." unique_id=598555258 instance=ExtResource("2_yqjtg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2734697, 0, 2.6663518)

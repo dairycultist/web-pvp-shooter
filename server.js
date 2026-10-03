@@ -9,7 +9,7 @@ function on_error(error) {
 
 server.on("error", on_error);
 
-server.on("message",function(msg, info) {
+server.on("message", (msg, info) => {
 
     msg = msg.toString(); // since it arrives as binary
 
@@ -26,7 +26,7 @@ server.on("listening", function() {
     console.log(`Server is up at: ${ address.address }:${ address.port } (${ address.family })`);
 });
 
-server.on("close", function() {
+server.on("close", () => {
   console.log("Bye bye!");
 });
 

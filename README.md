@@ -17,3 +17,10 @@ Client made in Godot for web platforms with a server backend in Node.js.
 - the goal is to reach 5 (?) wins
 
 https://mindlessdev.itch.io/prototypegrid
+
+## Setting up a server
+
+If you don't want to configure your router to port forward, you can use playit.gg. Basically, you run `server.js` locally
+and give other people the address of your playit.gg tunnel, which you should set up to forward to the local address/port `127.0.0.1:19132`.
+
+Or if you have a private server that accepts DNS traffic, use that instead (with port 19132).

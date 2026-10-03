@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ch0huohdaycmc"]
 
-[ext_resource type="Script" uid="uid://cmc1usphiserr" path="res://connect_button.gd" id="1_y7k74"]
+[ext_resource type="Script" uid="uid://cmc1usphiserr" path="res://connect_button.gd" id="1_4ignj"]
 
 [node name="Title" type="Control" unique_id=1370441645]
 layout_mode = 3
@@ -35,12 +35,14 @@ custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "Port (default: 19132)"
 
-[node name="Button" type="Button" parent="FlowContainer" unique_id=1562453722 node_paths=PackedStringArray("label")]
+[node name="Button" type="Button" parent="FlowContainer" unique_id=1562453722 node_paths=PackedStringArray("ip_text", "port_text", "failure_label")]
 layout_mode = 2
 text = "Connect"
-script = ExtResource("1_y7k74")
-label = NodePath("../Warning Label")
+script = ExtResource("1_4ignj")
+ip_text = NodePath("../IP")
+port_text = NodePath("../Port")
+failure_label = NodePath("../FailureLabel")
 
-[node name="Warning Label" type="Label" parent="FlowContainer" unique_id=2022052426]
+[node name="FailureLabel" type="Label" parent="FlowContainer" unique_id=2022052426]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
