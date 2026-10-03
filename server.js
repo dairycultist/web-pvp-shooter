@@ -11,11 +11,13 @@ server.on("error", on_error);
 
 server.on("message",function(msg, info) {
 
-    console.log('Data received from client: ' + msg.toString());
-    console.log('Received %d bytes from %s:%d\n',msg.length, info.address, info.port);
+    msg = msg.toString(); // since it arrives as binary
 
-    // respond
-    server.send("I am the server! I have responded!", info.port, info.address, on_error);
+    console.log(`Received "${ msg }" (${ msg.length } bytes) from ${ info.address }:${ info.port }\n`);
+
+    // respond appropriately
+    if (msg === "rolereq")
+        server.send("roleset1", info.port, info.address, on_error);
 });
 
 server.on("listening", function() {
