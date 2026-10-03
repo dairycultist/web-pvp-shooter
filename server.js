@@ -36,6 +36,8 @@ server.on("message", (msg, info) => {
 
         const [player_id, type, content] = msg.split(":");
 
+        players[player_id].keepalive = Date.now();
+
         switch (type) {
             
             case "pos":
