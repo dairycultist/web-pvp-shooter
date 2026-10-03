@@ -27,59 +27,67 @@ function on_error(error) {
 
 server.on("error", on_error);
 
-server.on("message", (msg, info) => {
+var message_types = {
+    "reqid": {
+        "update_client": (client, player_id) => {
+
+            for (const player_id of ["Player1", "Player2", "Player3", "Player4"]) {
+
+                if (players[player_id] && Date.now() - players[player_id].keepalive > 5000)
+                    players[player_id] = undefined;
+
+                if (!players[player_id]) {
+
+                    server.send("=" + player_id, client.port, client.address, on_error);
+                    players[player_id] = new Player();
+                    return;
+                }
+            }
+        }
+    },
+    "pos": {
+        "update_server": (client, player_id, content) => {
+            const [x, y, z] = content.split(",");
+            players[player_id].x = x;
+            players[player_id].y = y;
+            players[player_id].z = z;
+        },
+        "update_client": (player_id) => {
+            server.send("pos:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z, client.port, client.address, on_error);
+        }
+    }
+};
+
+server.on("message", (msg, client) => {
 
     msg = msg.toString(); // since it arrives as binary
-
-    console.log(`Received "${ msg }" (${ msg.length } bytes) from ${ info.address }:${ info.port }`);
+    console.log(`Received "${ msg }" (${ msg.length } bytes) from ${ client.address }:${ client.port }`);
 
     // client wants to update information about themself on the server
     if (msg.includes(":")) {
 
         const [player_id, type, content] = msg.split(":");
 
+        // you must request a player id before using it!
+        if (!players[player_id])
+            return
+
         players[player_id].keepalive = Date.now();
 
-        switch (type) {
-            
-            case "pos":
-                const [x, y, z] = content.split(",");
-                players[player_id].x = x;
-                players[player_id].y = y;
-                players[player_id].z = z;
-                break;
-        }
+        if (message_types[type]["update_server"])
+            message_types[type]["update_server"](client, player_id, content);
     
-    // client wants to receive info about someone else on the server
+    // client wants to receive info from the server (either about someone or just general info)
     } else if (msg.includes(";")) {
 
         const [player_id, type] = msg.split(";");
 
-        if (!players[player_id])
+        // can't get info about a player that doesn't exist
+        if (!(players[player_id] || player_id === ""))
             return;
 
-        switch (type) {
-            
-            case "pos":
-                server.send("pos:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z, info.port, info.address, on_error);
-                break;
-        }
-
-    // client is requesting to be assigned a player id
-    } else if (msg === "?") {
-
-        for (const player_id of ["Player1", "Player2", "Player3", "Player4"]) {
-
-            if (players[player_id] && Date.now() - players[player_id].keepalive > 5000)
-                players[player_id] = undefined;
-
-            if (!players[player_id]) {
-
-                server.send("?" + player_id, info.port, info.address, on_error);
-                players[player_id] = new Player();
-                return;
-            }
-        }
+        if (message_types[type]["update_client"])
+            message_types[type]["update_client"](client, player_id);
     }
 });
 
@@ -87,10 +95,6 @@ server.on("listening", function() {
 
     var address = server.address();
     console.log(`Server is up at: ${ address.address }:${ address.port } (${ address.family })`);
-});
-
-server.on("close", () => {
-  console.log("Bye bye!");
 });
 
 server.bind(19132);

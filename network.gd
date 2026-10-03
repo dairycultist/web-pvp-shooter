@@ -17,11 +17,11 @@ func game_connect(ip: String, port: int) -> bool:
 	# (returning false if we get no response)
 	for i in range(0, 10):
 		
-		send("?")
+		send(";reqid")
 		await get_tree().create_timer(1.0).timeout
 		
 		var res := read_one_packet()
-		if res.begins_with("?"):
+		if res.begins_with("="):
 			_player_id = res.substr(1)
 			break
 	
@@ -51,19 +51,16 @@ func send(msg: String):
 func send_identified(msg: String):
 	send(_player_id + ":" + msg)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	
 	if _player_id == "":
 		return
 	
 	var msg_parts = Network.read_one_packet().split(":")
 	
-	print(msg_parts)
-	
 	match msg_parts[0]:
 		"pos":
 			var player = get_tree().current_scene.get_node(msg_parts[1])
-			
 			if player:
 				var xyz = msg_parts[2].split(",")
 				player.global_position.x = xyz[0].to_float()
