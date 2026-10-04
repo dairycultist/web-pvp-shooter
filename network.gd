@@ -6,12 +6,15 @@ const REMOTE_PLAYER_SCENE := preload("res://player/remote_player.tscn")
 const TPS := 20.0
 var _tick_timer: float # for syncing with the server
 var _players_timer: float # for checking if any players joined/left
+var _chat_timer: float # for fetching the latest chat messages
 signal tick
 
 var _peer: PacketPeerUDP
 var _player_id := ""
 var _current_scene: Node
 var _packet_processor_thread: Thread
+
+var _local_player: Node3D
 var _remote_players: Dictionary[String, Node3D]
 
 func _ready() -> void:
@@ -50,10 +53,10 @@ func game_connect(ip: String, port: int, player_id: String) -> Error:
 	_current_scene = get_tree().current_scene
 	
 	# spawn local player
-	var local_player := LOCAL_PLAYER_SCENE.instantiate()
-	local_player.player_id = player_id
-	_current_scene.add_child(local_player)
-	local_player.global_position.y = 5.0
+	_local_player = LOCAL_PLAYER_SCENE.instantiate()
+	_local_player.player_id = player_id
+	_current_scene.add_child(_local_player)
+	_local_player.global_position.y = 5.0
 	
 	# begin processing incoming packets
 	_packet_processor_thread = Thread.new()
@@ -85,6 +88,7 @@ func _process(delta: float) -> void:
 	
 	_tick_timer -= delta
 	_players_timer -= delta
+	_chat_timer -= delta
 	
 	if _tick_timer < 0.0:
 		_tick_timer = 1.0 / Network.TPS
@@ -93,6 +97,10 @@ func _process(delta: float) -> void:
 	if _players_timer < 0.0:
 		_players_timer = 5.0 # yeah it's hardcoded
 		send(_player_id + ";players")
+	
+	if _chat_timer < 0.0:
+		_chat_timer = 0.5
+		send(";chat")
 
 func _process_packets() -> void:
 	
@@ -132,6 +140,14 @@ func _process_packet(msg_parts) -> void:
 				if not reported_player_ids.has(id):
 					_remote_players.get(id).queue_free()
 					_remote_players.erase(id)
+		"chat":
+			var chat_parts = msg_parts[1].split(",", false)
+			
+			for i in range(chat_parts.size()):
+				var leftright = chat_parts[i].split(" ", true, 1)
+				chat_parts[i] = "[color=yellow][" + leftright[0] + "][/color] " + leftright[1]
+			
+			_local_player.get_node("Chat/ChatMessages").text = "\n".join(chat_parts)
 
 func _create_remote_player(player_id: String) -> Node3D:
 

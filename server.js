@@ -31,6 +31,10 @@ class Player {
 // player id => Player
 var players = {};
 
+// server only stores the last 5 chat messages, 80ch max
+// when one is pushed to the end, one is also shifted out from the beginning
+var chat = ["", "", "", "", ""];
+
 // message type => handlers
 var message_types = {
     "conn": {
@@ -86,12 +90,15 @@ var message_types = {
     },
     "chat": {
         "update_server": (client, player_id, content) => {
-            // server console outputs chat messages too
+
+            // client will automatically format such that the first word is separated stylistically
+            chat.push(player_id + " " + content);
+            chat.shift();
+
             console.log("[" + player_id + "] " + content);
         },
         "update_client": (client, player_id) => {
-            // clients periodically ask for every message the server has (server only stores last 5 or
-            // so, 80ch max) as one supermessage (which includes player id of sender and linebreaks)
+            send(client, "chat:" + chat.join(","));
         }
     }
 };

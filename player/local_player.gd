@@ -9,6 +9,7 @@ var player_id: String
 
 func _ready() -> void:
 	
+	# sending client's player position
 	Network.tick.connect(func():
 		Network.send_identified(
 			"xyzpy:"
@@ -19,14 +20,17 @@ func _ready() -> void:
 			+ str(global_rotation.y))
 	)
 	
+	# validating chat message content
 	$Chat/ChatEntry.text_changed.connect(func(new_text: String):
-		$Chat/ChatEntry.text = new_text.replace(":", "").replace(";", "").replace(",", "").substr(0, 10)
+		$Chat/ChatEntry.text = new_text.replace(":", "").replace(";", "").replace(",", "").substr(0, 80)
 		$Chat/ChatEntry.set_caret_column($Chat/ChatEntry.text.length())
 	)
 	
+	# sending chat messages
 	$Chat/ChatEntry.text_submitted.connect(func(new_text: String):
-		Network.send_identified("chat:" + new_text)
-		$Chat/ChatEntry.clear()
+		if new_text != "":
+			Network.send_identified("chat:" + new_text)
+			$Chat/ChatEntry.clear()
 	)
 
 func _physics_process(delta: float) -> void:
