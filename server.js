@@ -13,7 +13,7 @@ function send(client, msg) {
 
 class Player {
   
-    constructor(keepalive) {
+    constructor() {
 
         // will immediately be updated by the client so the initial values don't matter
         this.x = 0.0;
@@ -55,22 +55,19 @@ var message_types = {
     "players": {
         "update_client": (client, player_id) => {
 
-            // TODO first remove any seemingly disconnected players
-            // for (const player_id of Object.keys(players)) {
+            // first remove any seemingly disconnected players (haven't sent any messages in the past five seconds)
+            for (const id of Object.keys(players)) {
 
-            //     if (Date.now() - players[player_id].keepalive > 5000) {
-            //         players[player_id] = undefined;
-            //         console.log(`Player "${ player_id }" disconnected.`);
-            //     }
-            // }
+                if (Date.now() - players[id].keepalive > 5000) {
+                    delete players[id];
+                    console.log(`Player "${ id }" disconnected.`);
+                }
+            }
 
             var remote_players = Object.keys(players);
 
             // don't want to return the local player's id in the list of remote player ids
             remote_players.splice(remote_players.indexOf(player_id), 1);
-
-            if (remote_players.length == 0)
-                return;
 
             send(client, "players:" + remote_players.join(","));
         }

@@ -123,6 +123,9 @@ func _process_packet(msg_parts) -> void:
 		"players":
 			var reported_player_ids = msg_parts[1].split(",")
 			
+			if reported_player_ids[0] == "":
+				reported_player_ids = []
+			
 			_current_scene.get_node("PlayerListLabel").text = "[b]" + _player_id + "[/b][br]" + "[br]".join(reported_player_ids)
 			
 			for id in reported_player_ids:
@@ -132,6 +135,7 @@ func _process_packet(msg_parts) -> void:
 			for id in _remote_players.keys():
 				if not reported_player_ids.has(id):
 					_remote_players.get(id).queue_free()
+					_remote_players.erase(id)
 
 func _create_remote_player(player_id: String) -> Node3D:
 

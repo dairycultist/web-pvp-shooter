@@ -14,8 +14,8 @@ size = Vector2(10, 10)
 [node name="World" type="Node3D" unique_id=1063087699]
 
 [node name="PlayerListLabel" type="RichTextLabel" parent="." unique_id=525182088]
-offset_right = 554.0
-offset_bottom = 261.0
+offset_right = 280.0
+offset_bottom = 345.0
 bbcode_enabled = true
 text = "Awaiting player information..."
 
