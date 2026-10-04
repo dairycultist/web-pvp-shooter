@@ -45,6 +45,7 @@ offset_top = -31.0
 offset_right = 343.0
 grow_vertical = 0
 placeholder_text = "Chat here..."
+keep_editing_on_text_submit = true
 caret_blink = true
 
 [node name="ChatMessages" type="RichTextLabel" parent="Chat" unique_id=960757412]
@@ -61,4 +62,5 @@ a
 a
 a
 a"
+scroll_following = true
 vertical_alignment = 2
