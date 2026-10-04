@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://davwxhburtfja"]
 
 [ext_resource type="Texture2D" uid="uid://dmqtpmtafpq7v" path="res://prototype_grid_dark_large.png" id="1_f3sb7"]
-[ext_resource type="PackedScene" uid="uid://d18s3cdq05uem" path="res://player.tscn" id="2_yqjtg"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_lxpj2"]
 
@@ -25,15 +24,3 @@ mesh = SubResource("PlaneMesh_lxpj2")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1080060669]
 transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.3713914, 0, 0, 0)
-
-[node name="Player1" parent="." unique_id=26882091 instance=ExtResource("2_yqjtg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.4571037)
-
-[node name="Player2" parent="." unique_id=968177143 instance=ExtResource("2_yqjtg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4292595, 0, 1.9012051)
-
-[node name="Player3" parent="." unique_id=1313471293 instance=ExtResource("2_yqjtg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8315096, 0, -0.44605446)
-
-[node name="Player4" parent="." unique_id=598555258 instance=ExtResource("2_yqjtg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2734697, 0, 1.2092476)

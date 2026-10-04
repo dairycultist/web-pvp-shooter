@@ -33,21 +33,32 @@ var players = {};
 
 // message type => handlers
 var message_types = {
-    "reqid": {
+    "conn": {
+        "update_server": (client, player_id, content) => {
+
+            if (players[content] && Date.now() - players[content].keepalive < 5000) { // hasn't been 5 seconds
+                send(client, "TAKEN");
+                return;
+            }
+
+            players[content] = new Player();
+            send(client, "OK");
+        }
+    },
+    "players": {
         "update_client": (client, player_id) => {
 
-            for (const player_id of ["Player1", "Player2", "Player3", "Player4"]) {
+            var remote_players = Object.keys(players);
 
-                if (players[player_id] && Date.now() - players[player_id].keepalive > 5000)
-                    players[player_id] = undefined;
+            // don't want to return the local player's id in the list of remote player ids
+            remote_players.splice(remote_players.indexOf(player_id), 1);
 
-                if (!players[player_id]) {
+            if (remote_players.length == 0)
+                return;
 
-                    send(client, "=" + player_id);
-                    players[player_id] = new Player();
-                    return;
-                }
-            }
+            console.log(remote_players.join(","));
+
+            send(client, "players:" + remote_players.join(","));
         }
     },
     "pos": {
@@ -86,10 +97,11 @@ server.on("message", (msg, client) => {
         const [player_id, type, content] = msg.split(":");
 
         // if message is about a player, they must have first been requested
-        if (!players[player_id])
+        if (!(players[player_id] || player_id === ""))
             return;
 
-        players[player_id].keepalive = Date.now();
+        if (players[player_id])
+            players[player_id].keepalive = Date.now();
 
         if (message_types[type]["update_server"])
             message_types[type]["update_server"](client, player_id, content);
