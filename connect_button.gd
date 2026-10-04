@@ -1,16 +1,16 @@
 extends Button
 
-@export var ip_text: TextEdit
-@export var port_text: TextEdit
-@export var player_id_text: TextEdit
+@export var ip_text: LineEdit
+@export var port_text: LineEdit
+@export var player_id_text: LineEdit
 @export var failure_label: Label
 
 func _ready() -> void:
 	button_down.connect(_on_button_down)
 	
 	# ensure you can't enter invalid characters in the player id field
-	player_id_text.text_changed.connect(func ():
-		player_id_text.text = player_id_text.text.replace(":", "").replace(";", "").replace(",", "").replace(" ", "").replace("\n", "").substr(0, 10)
+	player_id_text.text_changed.connect(func (new_text):
+		player_id_text.text = new_text.replace(":", "").replace(";", "").replace(",", "").replace(" ", "").substr(0, 10)
 		player_id_text.set_caret_column(player_id_text.text.length())
 	)
 
@@ -20,7 +20,7 @@ func _on_button_down():
 	text = "Attempting to connect..."
 	failure_label.text = ""
 	
-	var ip := ip_text.text if ip_text.text else "127.0.0.1"
+	var ip := ip_text.text.strip_edges() if ip_text.text else "127.0.0.1"
 	var port := port_text.text.to_int() if port_text.text else 19132
 	var username := player_id_text.text if player_id_text.text else "imdumb"
 	

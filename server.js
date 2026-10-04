@@ -87,6 +87,7 @@ var message_types = {
     "chat": {
         "update_server": (client, player_id, content) => {
             // server console outputs chat messages too
+            console.log("[" + player_id + "] " + content);
         },
         "update_client": (client, player_id) => {
             // clients periodically ask for every message the server has (server only stores last 5 or

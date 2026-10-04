@@ -18,6 +18,16 @@ func _ready() -> void:
 			+ str($Camera.rotation.x) + ","
 			+ str(global_rotation.y))
 	)
+	
+	$Chat/ChatEntry.text_changed.connect(func(new_text: String):
+		$Chat/ChatEntry.text = new_text.replace(":", "").replace(";", "").replace(",", "").substr(0, 10)
+		$Chat/ChatEntry.set_caret_column($Chat/ChatEntry.text.length())
+	)
+	
+	$Chat/ChatEntry.text_submitted.connect(func(new_text: String):
+		Network.send_identified("chat:" + new_text)
+		$Chat/ChatEntry.clear()
+	)
 
 func _physics_process(delta: float) -> void:
 	
@@ -27,9 +37,11 @@ func _physics_process(delta: float) -> void:
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			$EscapeMenu.visible = false
+			$Chat/ChatEntry.release_focus()
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			$EscapeMenu.visible = true
+			$Chat/ChatEntry.grab_focus()
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY

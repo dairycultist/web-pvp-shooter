@@ -22,6 +22,41 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/outline_size = 7
 text = "Press escape to return to game"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Chat" type="ColorRect" parent="." unique_id=1844904211]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -166.0
+offset_right = 343.0
+grow_vertical = 0
+color = Color(0, 0, 0, 0.2901961)
+
+[node name="ChatEntry" type="LineEdit" parent="Chat" unique_id=1830466537]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 343.0
+grow_vertical = 0
+placeholder_text = "Chat here..."
+caret_blink = true
+
+[node name="ChatMessages" type="RichTextLabel" parent="Chat" unique_id=960757412]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 131.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[color=yellow][john][/color] hello guys
+[color=yellow][john][/color] hello guys
+[color=yellow][john][/color] hello guys
+[color=yellow][john][/color] hello guys
+[color=yellow][john][/color] hello guys"
+vertical_alignment = 2

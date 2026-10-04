@@ -25,17 +25,17 @@ vertical = true
 layout_mode = 2
 text = "Main Menu"
 
-[node name="IP" type="TextEdit" parent="FlowContainer" unique_id=215945519]
+[node name="IP" type="LineEdit" parent="FlowContainer" unique_id=843804733]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "IP (default: 127.0.0.1)"
 
-[node name="Port" type="TextEdit" parent="FlowContainer" unique_id=1717008101]
+[node name="Port" type="LineEdit" parent="FlowContainer" unique_id=774073830]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "Port (default: 19132)"
 
-[node name="PlayerID" type="TextEdit" parent="FlowContainer" unique_id=1624533298]
+[node name="PlayerID" type="LineEdit" parent="FlowContainer" unique_id=1237119921]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "Username (default: imdumb, <=10ch)"
