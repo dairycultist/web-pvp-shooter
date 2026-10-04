@@ -36,7 +36,7 @@ var message_types = {
     "conn": {
         "update_server": (client, player_id, content) => {
 
-            if (players[content] && Date.now() - players[content].keepalive < 5000) { // hasn't been 5 seconds
+            if (players[content]) {
                 send(client, "TAKEN");
                 return;
             }
@@ -48,6 +48,13 @@ var message_types = {
     "players": {
         "update_client": (client, player_id) => {
 
+            // TODO first remove any seemingly disconnected players
+            // for (const player_id of Object.keys(players)) {
+
+            //     if (Date.now() - players[player_id].keepalive > 5000)
+            //         players[player_id] = undefined;
+            // }
+
             var remote_players = Object.keys(players);
 
             // don't want to return the local player's id in the list of remote player ids
@@ -55,8 +62,6 @@ var message_types = {
 
             if (remote_players.length == 0)
                 return;
-
-            console.log(remote_players.join(","));
 
             send(client, "players:" + remote_players.join(","));
         }

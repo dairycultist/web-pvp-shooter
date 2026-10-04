@@ -38,7 +38,7 @@ placeholder_text = "Port (default: 19132)"
 [node name="PlayerID" type="TextEdit" parent="FlowContainer" unique_id=1624533298]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
-placeholder_text = "Username (default: imdumb)"
+placeholder_text = "Username (default: imdumb, <=10ch)"
 
 [node name="Button" type="Button" parent="FlowContainer" unique_id=1562453722 node_paths=PackedStringArray("ip_text", "port_text", "player_id_text", "failure_label")]
 layout_mode = 2

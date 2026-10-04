@@ -1,6 +1,9 @@
 extends StaticBody3D
 
-var player_id: String
+var player_id: String:
+	set(value):
+		player_id = value
+		$PlayerID.text = value
 
 var goal_position: Vector3
 var goal_rotation: Vector3

@@ -24,3 +24,10 @@ mesh = SubResource("BoxMesh_lxpj2")
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=953337590]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_lxpj2")
+
+[node name="PlayerID" type="Label3D" parent="." unique_id=989910895]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3947277, 0)
+pixel_size = 0.01
+billboard = 1
+double_sided = false
+text = "username goes here"
