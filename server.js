@@ -83,6 +83,15 @@ var message_types = {
         "update_client": (client, player_id) => {
             send(client, "xyzpy:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z + "," + players[player_id].pitch + "," + players[player_id].yaw);
         }
+    },
+    "chat": {
+        "update_server": (client, player_id, content) => {
+            // server console outputs chat messages too
+        },
+        "update_client": (client, player_id) => {
+            // clients periodically ask for every message the server has (server only stores last 5 or
+            // so, 80ch max) as one supermessage (which includes player id of sender and linebreaks)
+        }
     }
 };
 
