@@ -36,6 +36,11 @@ var message_types = {
     "conn": {
         "update_server": (client, player_id, content) => {
 
+            if (Object.keys(players).length >= 8) {
+                send(client, "FULL");
+                return;
+            }
+
             if (players[content]) {
                 send(client, "TAKEN");
                 return;
@@ -43,6 +48,8 @@ var message_types = {
 
             players[content] = new Player();
             send(client, "OK");
+
+            console.log(`Player "${ content }" connected.`);
         }
     },
     "players": {
@@ -51,8 +58,10 @@ var message_types = {
             // TODO first remove any seemingly disconnected players
             // for (const player_id of Object.keys(players)) {
 
-            //     if (Date.now() - players[player_id].keepalive > 5000)
+            //     if (Date.now() - players[player_id].keepalive > 5000) {
             //         players[player_id] = undefined;
+            //         console.log(`Player "${ player_id }" disconnected.`);
+            //     }
             // }
 
             var remote_players = Object.keys(players);

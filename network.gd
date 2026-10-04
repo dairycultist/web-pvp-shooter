@@ -36,6 +36,8 @@ func game_connect(ip: String, port: int, player_id: String) -> Error:
 			break
 		if res == "TAKEN":
 			return Error.ERR_ALREADY_EXISTS
+		if res == "FULL":
+			return Error.ERR_UNAVAILABLE
 	
 	# could not reach server
 	if _player_id == "":

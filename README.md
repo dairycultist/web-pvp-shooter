@@ -18,7 +18,17 @@ debug texture https://mindlessdev.itch.io/prototypegrid
 
 delete player when they disconnect
 
-add chat, a neat test level, and maybe make the player character a bit cuter (customization planned, package that info alongside username)
+implement chat in the dumbest easiest way possible
+every half second the client asks the server "yo, gimme all da messages"
+the server sends back every message it has
+it only stores 5, discarding older ones when newer ones come in
+since packets sent between client and server can only be so long
+also messages will be max 80ch lol
+server console outputs chat messages too
+
+a neat test level
+
+customization + teams planned, package that info alongside username at connect or smth
 
 I should make the client flexible enough where it's not locked into one gamemode, i.e. the gamemode is determined by the server logic,
 so you can use the same client, but connecting to a different server means you can play a gamemode specific to that server like gmod

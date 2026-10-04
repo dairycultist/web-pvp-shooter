@@ -24,5 +24,7 @@ func _on_button_down():
 		failure_label.text = "No response from server."
 	elif res == Error.ERR_ALREADY_EXISTS:
 		failure_label.text = "Server exists but username is taken."
+	elif res == Error.ERR_UNAVAILABLE:
+		failure_label.text = "Server is full (8 players max)."
 	text = "Connect"
 	disabled = false
