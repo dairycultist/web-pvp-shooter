@@ -65,6 +65,7 @@ func game_disconnect():
 	_peer.close()
 	_player_id = ""
 	_current_scene = null
+	_remote_players.clear()
 	_packet_processor_thread.wait_to_finish()
 	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
@@ -119,6 +120,8 @@ func _process_packet(msg_parts) -> void:
 				player.goal_rotation = Vector3(py[0].to_float(), py[1].to_float(), 0.0)
 		"players":
 			var reported_player_ids = msg_parts[1].split(",")
+			
+			_current_scene.get_node("PlayerListLabel").text = "[b]" + _player_id + "[/b][br]" + "[br]".join(reported_player_ids)
 			
 			for id in reported_player_ids:
 				if not _remote_players.has(id):

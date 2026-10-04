@@ -468,9 +468,6 @@ text = "username goes here"
 [node name="Model" parent="." unique_id=1593839086 instance=ExtResource("2_332rn")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Model" unique_id=1487216383]
-libraries/ = SubResource("AnimationLibrary_r4dxu")
-
 [node name="Skeleton3D" parent="Model/Armature" parent_id_path=PackedInt32Array(1593839086, 957279936) index="0" unique_id=1004488546]
 bones/1/scale = Vector3(0.99999976, 1, 0.9999998)
 bones/2/scale = Vector3(1.0000007, 0.9999997, 0.99999994)
@@ -478,5 +475,8 @@ bones/4/rotation = Quaternion(-0.6479002, -0.04113031, 0.035072587, 0.75980496)
 bones/4/scale = Vector3(0.99999994, 0.9999998, 1)
 bones/5/scale = Vector3(1.0000005, 1.0000001, 1)
 bones/10/rotation = Quaternion(-0.05880994, 0.014954757, -0.24600545, 0.9673671)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Model" unique_id=1487216383]
+libraries/ = SubResource("AnimationLibrary_r4dxu")
 
 [editable path="Model"]
