@@ -10,8 +10,13 @@ var player_id: String
 func _ready() -> void:
 	
 	Network.tick.connect(func():
-		Network.send_identified("pos:" + str(global_position.x) + "," + str(global_position.y) + "," + str(global_position.z))
-		Network.send_identified("rot:" + str($Camera.rotation.x) + "," + str(global_rotation.y))
+		Network.send_identified(
+			"xyzpy:"
+			+ str(global_position.x) + ","
+			+ str(global_position.y) + ","
+			+ str(global_position.z) + ","
+			+ str($Camera.rotation.x) + ","
+			+ str(global_rotation.y))
 	)
 
 func _physics_process(delta: float) -> void:

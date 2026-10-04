@@ -110,16 +110,12 @@ func _process_packets() -> void:
 func _process_packet(msg_parts) -> void:
 	
 	match msg_parts[0]:
-		"pos":
+		"xyzpy":
 			var player = _remote_players.get(msg_parts[1])
 			if player:
-				var xyz = msg_parts[2].split(",")
-				player.goal_position = Vector3(xyz[0].to_float(), xyz[1].to_float(), xyz[2].to_float())
-		"rot":
-			var player = _remote_players.get(msg_parts[1])
-			if player:
-				var py = msg_parts[2].split(",")
-				player.goal_rotation = Vector3(py[0].to_float(), py[1].to_float(), 0.0)
+				var xyzpy = msg_parts[2].split(",")
+				player.goal_position = Vector3(xyzpy[0].to_float(), xyzpy[1].to_float(), xyzpy[2].to_float())
+				player.goal_rotation = Vector3(xyzpy[3].to_float(), xyzpy[4].to_float(), 0.0)
 		"players":
 			var reported_player_ids = msg_parts[1].split(",")
 			

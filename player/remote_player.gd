@@ -17,8 +17,7 @@ func _ready() -> void:
 	Network.tick.connect(func():
 		# poll the server for position and rotation information on this remote player;
 		# the responses aren't handled by the remote players but by the Network global
-		Network.send(player_id + ";pos")
-		Network.send(player_id + ";rot")
+		Network.send(player_id + ";xyzpy")
 	)
 
 func _physics_process(delta: float) -> void:

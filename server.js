@@ -55,7 +55,7 @@ var message_types = {
     "players": {
         "update_client": (client, player_id) => {
 
-            // first remove any seemingly disconnected players (haven't sent any messages in the past five seconds)
+            // delete any seemingly disconnected players (haven't sent any messages in the past five seconds)
             for (const id of Object.keys(players)) {
 
                 if (Date.now() - players[id].keepalive > 5000) {
@@ -64,33 +64,24 @@ var message_types = {
                 }
             }
 
+            // get all players that aren't the requesting player
             var remote_players = Object.keys(players);
-
-            // don't want to return the local player's id in the list of remote player ids
             remote_players.splice(remote_players.indexOf(player_id), 1);
 
             send(client, "players:" + remote_players.join(","));
         }
     },
-    "pos": {
+    "xyzpy": {
         "update_server": (client, player_id, content) => {
-            const [x, y, z] = content.split(",");
+            const [x, y, z, pitch, yaw] = content.split(",");
             players[player_id].x = x;
             players[player_id].y = y;
             players[player_id].z = z;
-        },
-        "update_client": (client, player_id) => {
-            send(client, "pos:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z);
-        }
-    },
-    "rot": {
-        "update_server": (client, player_id, content) => {
-            const [pitch, yaw] = content.split(",");
             players[player_id].pitch = pitch;
             players[player_id].yaw = yaw;
         },
         "update_client": (client, player_id) => {
-            send(client, "rot:" + player_id + ":" + players[player_id].pitch + "," + players[player_id].yaw);
+            send(client, "xyzpy:" + player_id + ":" + players[player_id].x + "," + players[player_id].y + "," + players[player_id].z + "," + players[player_id].pitch + "," + players[player_id].yaw);
         }
     }
 };
