@@ -8,6 +8,8 @@ var player_id: String:
 var goal_position: Vector3
 var goal_rotation: Vector3
 
+var curr_head_pitch: float
+
 func _ready() -> void:
 	
 	goal_position = global_position
@@ -21,6 +23,10 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	var head_bone_idx: int = $Model/Armature/Skeleton3D.find_bone("Head")
+	
+	curr_head_pitch = lerp(curr_head_pitch, goal_rotation.x, 10.0 * delta)
+	$Model/Armature/Skeleton3D.set_bone_pose_rotation(head_bone_idx, Quaternion(Vector3.RIGHT, curr_head_pitch))
+	
 	global_position = lerp(global_position, goal_position, 10.0 * delta)
-	$Camera.global_rotation.x = lerp($Camera.global_rotation.x, goal_rotation.x, 10.0 * delta)
 	global_rotation.y = lerp(global_rotation.y, goal_rotation.y, 10.0 * delta)

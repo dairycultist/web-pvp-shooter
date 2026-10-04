@@ -16,6 +16,17 @@ Desktop client made in Godot with a server backend in Node.js.
 
 debug texture https://mindlessdev.itch.io/prototypegrid
 
+delete player when they disconnect
+
+add chat, a neat test level, and maybe make the player character a bit cuter (customization planned, package that info alongside username)
+
+I should make the client flexible enough where it's not locked into one gamemode, i.e. the gamemode is determined by the server logic,
+so you can use the same client, but connecting to a different server means you can play a gamemode specific to that server like gmod
+
+deathmatch, capture the flag, capture the point (original idea), etc
+
+just need a generic weapon system + pool of preset weapons for any sorta pvp games
+
 ## Setting up a server
 
 If you don't want to configure your router to port forward, you can use playit.gg.

@@ -1,13 +1,9 @@
 [gd_scene format=3 uid="uid://d18s3cdq05uem"]
 
 [ext_resource type="Script" uid="uid://c3j408llmab6e" path="res://player/remote_player.gd" id="1_ueuwu"]
+[ext_resource type="PackedScene" uid="uid://csoi24ycqginb" path="res://player/player_model.glb" id="2_332rn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lxpj2"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_lxpj2"]
-size = Vector3(0.5, 0.5, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_lxpj2"]
 
 [node name="RemotePlayer" type="StaticBody3D" unique_id=355685139]
 disable_mode = 1
@@ -17,17 +13,14 @@ script = ExtResource("1_ueuwu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_lxpj2")
 
-[node name="Camera" type="MeshInstance3D" parent="." unique_id=1606700775]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.25)
-mesh = SubResource("BoxMesh_lxpj2")
-
-[node name="Mesh" type="MeshInstance3D" parent="." unique_id=953337590]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_lxpj2")
-
 [node name="PlayerID" type="Label3D" parent="." unique_id=989910895]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3947277, 0)
 pixel_size = 0.01
 billboard = 1
 double_sided = false
 text = "username goes here"
+
+[node name="Model" parent="." unique_id=1593839086 instance=ExtResource("2_332rn")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[editable path="Model"]
