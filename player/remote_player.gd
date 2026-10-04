@@ -28,5 +28,12 @@ func _physics_process(delta: float) -> void:
 	curr_head_pitch = lerp(curr_head_pitch, goal_rotation.x, 10.0 * delta)
 	$Model/Armature/Skeleton3D.set_bone_pose_rotation(head_bone_idx, Quaternion(Vector3.RIGHT, curr_head_pitch))
 	
+	if global_position.distance_to(goal_position) > 0.1:
+		$Model/AnimationPlayer.play("Run", 0.3)
+	else:
+		$Model/AnimationPlayer.play("Idle", 0.3)
+	
 	global_position = lerp(global_position, goal_position, 10.0 * delta)
 	global_rotation.y = lerp(global_rotation.y, goal_rotation.y, 10.0 * delta)
+	
+	
