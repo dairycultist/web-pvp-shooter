@@ -1,8 +1,10 @@
 extends Node
 
-# This script provides helpers for hosting, joining, and leaving a server
-# (and potentially other network-related stuff if needed; the actual server
-# and client code will just be focused on game logic).
+# This script provides helpers for hosting, joining, and leaving a server.
+# DON'T use this to get information about the network; use the local
+# "multiplayer" property instead.
+
+# The server and client code focus on game logic.
 
 # TODO pick up from here https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#remote-procedure-calls
 

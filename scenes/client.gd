@@ -17,24 +17,14 @@ func _enter_tree() -> void:
 	# their _ready functions
 	get_tree().set_multiplayer(api, get_path())
 
-func _on_peer_connected(id: int):
-	
-	if id == 1: # ignore the server peer
-		return
-	
-	# spawn other peer
-	print("peer_connected id=" + str(id) + "\n")
+func _on_peer_connected(_id: int):
+	pass
 
-func _on_peer_disconnected(id: int):
-	
-	if id == 1: # ignore the server peer
-		return
-	
-	# delete other peer
-	print("peer_disconnected id=" + str(id) + "\n")
+func _on_peer_disconnected(_id: int):
+	pass
 
 func _on_connected_to_server():
-	print("connected_to_server\n")
+	pass
 
 func _on_connection_failed():
 	Network.leave_server("Server did not respond.")

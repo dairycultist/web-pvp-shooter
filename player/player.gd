@@ -5,10 +5,28 @@ const ACCELERATION = 10.0
 const JUMP_VELOCITY = 4.5
 const MOUSE_SENSITIVITY = 0.003
 
+var is_local: bool
+
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	# if player is on the server, make it invisible + uninteractable
+	# as to not mess with the local client
+	if multiplayer.get_unique_id() == 1:
+		visible = false
+		return
+	
+	# identify if this player is local
+	is_local = name == "Player" + str(multiplayer.get_unique_id())
+	
+	if is_local:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		$Camera.make_current()
+		set_multiplayer_authority(multiplayer.get_unique_id())
 
 func _physics_process(delta: float) -> void:
+	
+	if not is_local:
+		return
 	
 	velocity += get_gravity() * delta
 	
@@ -50,6 +68,9 @@ func _physics_process(delta: float) -> void:
 		$Model/AnimationPlayer.play("Idle", 0.3)
 
 func _input(event: InputEvent) -> void:
+	
+	if not is_local:
+		return
 	
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		$Camera.rotation.x = clamp($Camera.rotation.x - event.screen_relative.y * MOUSE_SENSITIVITY, -PI/2, PI/2)

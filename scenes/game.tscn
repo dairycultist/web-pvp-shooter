@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://buuwuskb8v8lv"]
 
 [ext_resource type="Script" uid="uid://bl8ttf76cd0pe" path="res://scenes/client.gd" id="1_5fie4"]
-[ext_resource type="PackedScene" uid="uid://d18s3cdq05uem" path="res://player/player.tscn" id="2_p57ef"]
 [ext_resource type="PackedScene" uid="uid://7my2xhmqyxyf" path="res://scenes/map.glb" id="2_uksej"]
 [ext_resource type="Texture2D" uid="uid://c3okhaqulsspm" path="res://prototype_grid_light_large.png" id="3_nutti"]
 [ext_resource type="Texture2D" uid="uid://cn517m61shd62" path="res://sky_panorama.png" id="4_sis2d"]
@@ -59,16 +58,20 @@ environment = SubResource("Environment_lxpj2")
 [node name="Sun" type="DirectionalLight3D" parent="Client" unique_id=1080060669]
 transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.3713914, 0, 0, 0)
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Client" unique_id=1595159971]
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Client" unique_id=1382076172]
 _spawnable_scenes = PackedStringArray("uid://d18s3cdq05uem")
 spawn_path = NodePath("../Players")
 
-[node name="Players" type="Node3D" parent="Client" unique_id=1877349478]
-
-[node name="Player" parent="Client/Players" unique_id=1131636120 instance=ExtResource("2_p57ef")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+[node name="Players" type="Node3D" parent="Client" unique_id=1800292008]
 
 [node name="Server" type="Node" parent="." unique_id=1960978760]
 script = ExtResource("5_3iw4q")
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Server" unique_id=1595159971]
+_spawnable_scenes = PackedStringArray("uid://d18s3cdq05uem")
+spawn_path = NodePath("../Players")
+
+[node name="Players" type="Node3D" parent="Server" unique_id=1015349618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1000, 0)
 
 [editable path="Client/Map/Mesh"]

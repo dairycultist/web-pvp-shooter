@@ -18,9 +18,15 @@ func _enter_tree() -> void:
 	get_tree().set_multiplayer(api, get_path())
 
 func _on_peer_connected(id: int):
-	# handle client connection
-	print("peer_connected id=" + str(id) + "\n")
+	
+	# spawn the player
+	var player: Node3D = load("res://player/player.tscn").instantiate()
+	
+	player.name = "Player" + str(id)
+	
+	$Players.add_child(player)
 
 func _on_peer_disconnected(id: int):
-	# handle client disconnection
-	print("peer_disconnected id=" + str(id) + "\n")
+	
+	# despawn the player
+	$Players.get_node("Player" + str(id)).queue_free()
