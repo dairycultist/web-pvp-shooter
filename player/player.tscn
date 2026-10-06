@@ -1,7 +1,36 @@
 [gd_scene format=3 uid="uid://d18s3cdq05uem"]
 
-[ext_resource type="Script" uid="uid://c3j408llmab6e" path="res://player/remote_player.gd" id="1_ueuwu"]
 [ext_resource type="PackedScene" uid="uid://csoi24ycqginb" path="res://player/player_model.glb" id="2_332rn"]
+
+[sub_resource type="GDScript" id="GDScript_ueuwu"]
+script/source = "extends StaticBody3D
+
+var player_id: String:
+	set(value):
+		player_id = value
+		$PlayerID.text = value
+
+var goal_position: Vector3
+var goal_rotation: Vector3
+
+var curr_head_pitch: float
+
+func _ready() -> void:
+	
+	goal_position = global_position
+	
+	Network.tick.connect(func():
+		# poll the server for position and rotation information on this remote player;
+		# the responses aren't handled by the remote players but by the Network global
+		Network.send(player_id + \";xyzpy\")
+	)
+
+func _physics_process(delta: float) -> void:
+	
+	
+	
+	
+"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lxpj2"]
 
@@ -484,13 +513,16 @@ _data = {
 
 [node name="RemotePlayer" type="StaticBody3D" unique_id=355685139]
 disable_mode = 1
-script = ExtResource("1_ueuwu")
+script = SubResource("GDScript_ueuwu")
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=682571389]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_lxpj2")
 
-[node name="PlayerID" type="Label3D" parent="." unique_id=989910895]
+[node name="Camera" type="Camera3D" parent="." unique_id=253248643]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Username" type="Label3D" parent="." unique_id=989910895]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3947277, 0)
 pixel_size = 0.01
 billboard = 1
@@ -511,7 +543,54 @@ bones/10/rotation = Quaternion(-0.05880994, 0.014954757, -0.24600545, 0.9673671)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Model" unique_id=1487216383]
 libraries/ = SubResource("AnimationLibrary_r4dxu")
 
-[node name="GroundingRay" type="RayCast3D" parent="." unique_id=1157596976]
-target_position = Vector3(0, -0.1, 0)
+[node name="EscapeMenu" type="Label" parent="." unique_id=1436205579]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 7
+text = "Press escape to return to game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Chat" type="ColorRect" parent="." unique_id=10234969]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -149.0
+offset_right = 343.0
+grow_vertical = 0
+color = Color(0, 0, 0, 0.2901961)
+
+[node name="ChatEntry" type="LineEdit" parent="Chat" unique_id=1104866295]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 343.0
+grow_vertical = 0
+placeholder_text = "Chat here..."
+keep_editing_on_text_submit = true
+caret_blink = true
+
+[node name="ChatMessages" type="RichTextLabel" parent="Chat" unique_id=1712808863]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 6.0
+offset_right = -5.0
+offset_bottom = 116.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "a
+a
+a
+a
+a"
+scroll_following = true
+vertical_alignment = 2
 
 [editable path="Model"]

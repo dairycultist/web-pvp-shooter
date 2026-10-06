@@ -10,45 +10,79 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FlowContainer" type="FlowContainer" parent="." unique_id=2024570765]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1698867152]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
-last_wrap_alignment = 2
-vertical = true
 
-[node name="Label" type="Label" parent="FlowContainer" unique_id=1851511014]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=1656963426]
 layout_mode = 2
-text = "Main Menu"
 
-[node name="IP" type="LineEdit" parent="FlowContainer" unique_id=843804733]
+[node name="Join" type="PanelContainer" parent="CenterContainer/HBoxContainer" unique_id=1756556631]
+layout_mode = 2
+
+[node name="FlowContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Join" unique_id=123899717]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/Join/FlowContainer" unique_id=1851511014]
+layout_mode = 2
+text = "Join server"
+
+[node name="IP" type="LineEdit" parent="CenterContainer/HBoxContainer/Join/FlowContainer" unique_id=843804733]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "IP (default: 127.0.0.1)"
 
-[node name="Port" type="LineEdit" parent="FlowContainer" unique_id=774073830]
+[node name="Port" type="LineEdit" parent="CenterContainer/HBoxContainer/Join/FlowContainer" unique_id=774073830]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "Port (default: 19132)"
 
-[node name="PlayerID" type="LineEdit" parent="FlowContainer" unique_id=1237119921]
+[node name="PlayerID" type="LineEdit" parent="CenterContainer/HBoxContainer/Join/FlowContainer" unique_id=1237119921]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
 placeholder_text = "Username (default: imdumb, <=10ch)"
 
-[node name="Button" type="Button" parent="FlowContainer" unique_id=1562453722 node_paths=PackedStringArray("ip_text", "port_text", "player_id_text", "failure_label")]
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Join/FlowContainer" unique_id=1562453722]
 layout_mode = 2
 text = "Connect"
 script = ExtResource("1_4ignj")
-ip_text = NodePath("../IP")
-port_text = NodePath("../Port")
-player_id_text = NodePath("../PlayerID")
-failure_label = NodePath("../FailureLabel")
 
-[node name="FailureLabel" type="Label" parent="FlowContainer" unique_id=2022052426]
+[node name="FailureLabel" type="Label" parent="CenterContainer/HBoxContainer/Join/FlowContainer" unique_id=2022052426]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+
+[node name="Host" type="PanelContainer" parent="CenterContainer/HBoxContainer" unique_id=310642329]
+layout_mode = 2
+
+[node name="FlowContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer/Host" unique_id=1061739812]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/Host/FlowContainer" unique_id=209424201]
+layout_mode = 2
+text = "Host server"
+
+[node name="Port" type="LineEdit" parent="CenterContainer/HBoxContainer/Host/FlowContainer" unique_id=1702870803]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 2
+placeholder_text = "Port (default: 19132)"
+
+[node name="PlayerID" type="LineEdit" parent="CenterContainer/HBoxContainer/Host/FlowContainer" unique_id=1664419916]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 2
+placeholder_text = "Username (default: imdumb, <=10ch)"
+
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Host/FlowContainer" unique_id=1205042099]
+layout_mode = 2
+text = "Start server
+"
+script = ExtResource("1_4ignj")
+
+[node name="FailureLabel" type="Label" parent="CenterContainer/HBoxContainer/Host/FlowContainer" unique_id=1175182935]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)

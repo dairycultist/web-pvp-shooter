@@ -5,34 +5,6 @@ const ACCELERATION = 10.0
 const JUMP_VELOCITY = 4.5
 const MOUSE_SENSITIVITY = 0.003
 
-var player_id: String
-
-func _ready() -> void:
-	
-	# sending client's player position
-	Network.tick.connect(func():
-		Network.send_identified(
-			"xyzpy:"
-			+ str(global_position.x) + ","
-			+ str(global_position.y) + ","
-			+ str(global_position.z) + ","
-			+ str($Camera.rotation.x) + ","
-			+ str(global_rotation.y))
-	)
-	
-	# validating chat message content
-	$Chat/ChatEntry.text_changed.connect(func(new_text: String):
-		$Chat/ChatEntry.text = new_text.replace(":", "").replace(";", "").replace(",", "").substr(0, 80)
-		$Chat/ChatEntry.set_caret_column($Chat/ChatEntry.text.length())
-	)
-	
-	# sending chat messages
-	$Chat/ChatEntry.text_submitted.connect(func(new_text: String):
-		if new_text != "":
-			Network.send_identified("chat:" + new_text)
-			$Chat/ChatEntry.clear()
-	)
-
 func _physics_process(delta: float) -> void:
 	
 	velocity += get_gravity() * delta
@@ -62,6 +34,17 @@ func _physics_process(delta: float) -> void:
 	velocity.z = lerp(velocity.z, direction.z * SPEED, ACCELERATION * delta)
 
 	move_and_slide()
+	
+	# visual
+	var head_bone_idx: int = $Model/Armature/Skeleton3D.find_bone("Head")
+	$Model/Armature/Skeleton3D.set_bone_pose_rotation(head_bone_idx, $Camera.quaternion)
+	
+	if not is_on_floor():
+		$Model/AnimationPlayer.play("Jump", 0.15)
+	elif input_dir:
+		$Model/AnimationPlayer.play("Run", 0.3)
+	else:
+		$Model/AnimationPlayer.play("Idle", 0.3)
 
 func _input(event: InputEvent) -> void:
 	
