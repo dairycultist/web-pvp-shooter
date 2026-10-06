@@ -13,6 +13,9 @@ offset_left = 176.0
 offset_top = 162.0
 offset_right = 455.0
 offset_bottom = 389.0
+text = "client console
+----------------------
+"
 
 [node name="Server" type="Node" parent="." unique_id=1960978760]
 script = ExtResource("5_iywne")
@@ -22,3 +25,6 @@ offset_left = 654.0
 offset_top = 162.0
 offset_right = 933.0
 offset_bottom = 389.0
+text = "server console
+----------------------
+"

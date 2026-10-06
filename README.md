@@ -1,6 +1,6 @@
 # pvp-shooter
 
-Web multiplayer game made in Godot.
+Multiplayer game made in Godot.
 
 basically a gmod clone (customize the game experience before creating the server)
 
