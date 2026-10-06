@@ -1,36 +1,7 @@
 [gd_scene format=3 uid="uid://d18s3cdq05uem"]
 
 [ext_resource type="PackedScene" uid="uid://csoi24ycqginb" path="res://player/player_model.glb" id="1_oul6g"]
-
-[sub_resource type="GDScript" id="GDScript_ueuwu"]
-script/source = "extends StaticBody3D
-
-var player_id: String:
-	set(value):
-		player_id = value
-		$PlayerID.text = value
-
-var goal_position: Vector3
-var goal_rotation: Vector3
-
-var curr_head_pitch: float
-
-func _ready() -> void:
-	
-	goal_position = global_position
-	
-	Network.tick.connect(func():
-		# poll the server for position and rotation information on this remote player;
-		# the responses aren't handled by the remote players but by the Network global
-		Network.send(player_id + \";xyzpy\")
-	)
-
-func _physics_process(delta: float) -> void:
-	
-	
-	
-	
-"
+[ext_resource type="Script" uid="uid://d17iudcyf5k2" path="res://player/player.gd" id="1_rkbax"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lxpj2"]
 
@@ -513,7 +484,7 @@ _data = {
 
 [node name="Player" type="CharacterBody3D" unique_id=1131636120]
 disable_mode = 1
-script = SubResource("GDScript_ueuwu")
+script = ExtResource("1_rkbax")
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=682571389]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
