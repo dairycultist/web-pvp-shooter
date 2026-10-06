@@ -35,34 +35,18 @@ func _on_button_down():
 	if username == "":
 		failure_label.text = "Username must not be empty."
 	else:
-		pass
-		# if joining a server:
-		# - instance the game scene
-		# - configure root/client's peer to be a client
-		# - swap to that scene
-
-		# if creating a server:
-		# - instance the game scene
-		# - configure root/server's peer to be a server 
-		# - configure root/client's peer to be a client
-		# - swap to that scene
-
-		## Create client.
-		#var peer = ENetMultiplayerPeer.new()
-		#peer.create_client(IP_ADDRESS, PORT)
-		#multiplayer.multiplayer_peer = peer
-		#
-		## Create server.
-		#var peer = ENetMultiplayerPeer.new()
-		#peer.create_server(PORT, MAX_CLIENTS)
-		#multiplayer.multiplayer_peer = peer
 		
-		#if res == Error.ERR_CANT_CONNECT:
-			#failure_label.text = "No response from server."
-		#elif res == Error.ERR_ALREADY_EXISTS:
-			#failure_label.text = "Server exists but username is taken."
-		#elif res == Error.ERR_UNAVAILABLE:
-			#failure_label.text = "Server is full (8 players max)."
+		var result := Network.host_server(port)
+		
+		match result:
+			Error.ERR_CANT_CREATE:
+				failure_label.text = "Network could not be created."
+			Error.ERR_CANT_CONNECT:
+				failure_label.text = "No response from server."
+			Error.ERR_ALREADY_EXISTS:
+				failure_label.text = "Server exists but username is taken."
+			Error.ERR_UNAVAILABLE:
+				failure_label.text = "Server is full (8 players max)."
 	
 	text = "Connect" if client_type == ClientType.REMOTE else "Start server"
 	disabled = false
