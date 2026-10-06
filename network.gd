@@ -51,12 +51,14 @@ func join_server(address: String, port: int) -> Error:
 	
 	return Error.OK
 
-func leave_server() -> void:
+func leave_server(reason: String = "") -> void:
 	
 	get_tree().change_scene_to_file("res://scenes/title.tscn")
 	await get_tree().scene_changed
 	_client.close()
 	_server.close()
+	
+	get_tree().current_scene.get_node("DisconnectReasonLabel").text = reason
 
 func _init_server_node(node: Server):
 	

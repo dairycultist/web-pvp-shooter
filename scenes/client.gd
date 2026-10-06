@@ -2,19 +2,26 @@ extends Node
 class_name Client
 
 func on_peer_connected(id: int):
+	
+	if id == 1: # ignore the server peer
+		return
+	
 	# spawn other peer
-	$Label.text += "peer_connected id=" + str(id) + "\n"
+	print("peer_connected id=" + str(id) + "\n")
 
 func on_peer_disconnected(id: int):
+	
+	if id == 1: # ignore the server peer
+		return
+	
 	# delete other peer
-	$Label.text += "peer_disconnected id=" + str(id) + "\n"
+	print("peer_disconnected id=" + str(id) + "\n")
 
 func on_connected_to_server():
-	$Label.text += "connected_to_server\n"
+	print("connected_to_server\n")
 
 func on_connection_failed():
-	$Label.text += "connection_failed\n"
+	Network.leave_server("Server did not respond.")
 
 func on_server_disconnected():
-	$Label.text += "server_disconnected\n"
-	#Network.leave_server()
+	Network.leave_server("Server shut down by itself.")
