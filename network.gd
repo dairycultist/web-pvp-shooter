@@ -3,6 +3,8 @@ extends Node
 # all this script does is provide 3 global functions, one for hosting a server,
 # one for joining a server, and one for disconnecting (from either)
 
+# TODO pick up from here once you test WebRTC https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#remote-procedure-calls
+
 # TODO switch to WebRTCMultiplayerPeer, ENetMultiplayerPeer is just for testing
 var _server := ENetMultiplayerPeer.new()
 var _client := ENetMultiplayerPeer.new()
