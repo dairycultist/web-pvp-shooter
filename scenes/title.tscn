@@ -47,12 +47,18 @@ placeholder_text = "Port (default: 19132)"
 [node name="Username" type="LineEdit" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=1237119921]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
-placeholder_text = "Username (default: imdumb, <=10ch)"
+placeholder_text = "Username"
+max_length = 16
 
-[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=1562453722]
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=1562453722 node_paths=PackedStringArray("ip_input", "port_input", "username_input", "failure_label")]
 layout_mode = 2
 text = "Connect"
 script = ExtResource("1_4ignj")
+client_type = 1
+ip_input = NodePath("../IP")
+port_input = NodePath("../Port")
+username_input = NodePath("../Username")
+failure_label = NodePath("../FailureLabel")
 
 [node name="FailureLabel" type="Label" parent="CenterContainer/HBoxContainer/Join/Vertical" unique_id=2022052426]
 layout_mode = 2
@@ -77,13 +83,17 @@ placeholder_text = "Port (default: 19132)"
 [node name="Username" type="LineEdit" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1664419916]
 custom_minimum_size = Vector2(300, 36)
 layout_mode = 2
-placeholder_text = "Username (default: imdumb, <=10ch)"
+placeholder_text = "Username"
+max_length = 16
 
-[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1205042099]
+[node name="Button" type="Button" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1205042099 node_paths=PackedStringArray("port_input", "username_input", "failure_label")]
 layout_mode = 2
 text = "Start server
 "
 script = ExtResource("1_4ignj")
+port_input = NodePath("../Port")
+username_input = NodePath("../Username")
+failure_label = NodePath("../FailureLabel")
 
 [node name="FailureLabel" type="Label" parent="CenterContainer/HBoxContainer/Host/Vertical" unique_id=1175182935]
 layout_mode = 2
