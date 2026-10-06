@@ -29,34 +29,38 @@ sky = SubResource("Sky_x0ryr")
 
 [node name="World" type="Node3D" unique_id=1063087699]
 
-[node name="PlayerListLabel" type="RichTextLabel" parent="." unique_id=525182088]
+[node name="Client" type="Node3D" parent="." unique_id=562674025]
+
+[node name="PlayerListLabel" type="RichTextLabel" parent="Client" unique_id=525182088]
 offset_right = 280.0
 offset_bottom = 345.0
 bbcode_enabled = true
 text = "Awaiting player information..."
 
-[node name="Floor" type="StaticBody3D" parent="." unique_id=1223594724]
+[node name="Floor" type="StaticBody3D" parent="Client" unique_id=1223594724]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=919800247]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Client/Floor" unique_id=919800247]
 shape = SubResource("ConcavePolygonShape3D_lnu2h")
 
-[node name="map" parent="Floor" unique_id=1941595586 instance=ExtResource("3_lbhrr")]
+[node name="map" parent="Client/Floor" unique_id=1941595586 instance=ExtResource("3_lbhrr")]
 
-[node name="Map" parent="Floor/map" index="0" unique_id=190159654]
+[node name="Map" parent="Client/Floor/map" index="0" unique_id=190159654]
 material_override = SubResource("StandardMaterial3D_lnu2h")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Floor" unique_id=1773275766]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Client/Floor" unique_id=1773275766]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_lnu2h")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="Floor" unique_id=1788776339]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Client/Floor" unique_id=1788776339]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_lxpj2")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1080060669]
-transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.3713914, 0, 0, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=635654910]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Client" unique_id=635654910]
 environment = SubResource("Environment_lxpj2")
 
-[editable path="Floor/map"]
+[node name="Sun" type="DirectionalLight3D" parent="Client" unique_id=1080060669]
+transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.3713914, 0, 0, 0)
+
+[node name="Server" type="Node3D" parent="." unique_id=1003657018]
+
+[editable path="Client/Floor/map"]

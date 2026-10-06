@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d18s3cdq05uem"]
 
-[ext_resource type="PackedScene" uid="uid://csoi24ycqginb" path="res://player/player_model.glb" id="2_332rn"]
+[ext_resource type="PackedScene" uid="uid://csoi24ycqginb" path="res://player/player_model.glb" id="1_oul6g"]
 
 [sub_resource type="GDScript" id="GDScript_ueuwu"]
 script/source = "extends StaticBody3D
@@ -511,7 +511,7 @@ _data = {
 &"Run": SubResource("Animation_htqyt")
 }
 
-[node name="RemotePlayer" type="StaticBody3D" unique_id=355685139]
+[node name="Player" type="CharacterBody3D" unique_id=1131636120]
 disable_mode = 1
 script = SubResource("GDScript_ueuwu")
 
@@ -521,6 +521,7 @@ shape = SubResource("CapsuleShape3D_lxpj2")
 
 [node name="Camera" type="Camera3D" parent="." unique_id=253248643]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+current = true
 
 [node name="Username" type="Label3D" parent="." unique_id=989910895]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3947277, 0)
@@ -529,7 +530,7 @@ billboard = 1
 double_sided = false
 text = "username goes here"
 
-[node name="Model" parent="." unique_id=1593839086 instance=ExtResource("2_332rn")]
+[node name="Model" parent="." unique_id=1593839086 instance=ExtResource("1_oul6g")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Model/Armature" parent_id_path=PackedInt32Array(1593839086, 957279936) index="0" unique_id=1004488546]
