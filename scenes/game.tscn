@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://davwxhburtfja"]
 
+[ext_resource type="Script" uid="uid://bl8ttf76cd0pe" path="res://scenes/client.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://cn517m61shd62" path="res://sky_panorama.png" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://7my2xhmqyxyf" path="res://scenes/map.glb" id="3_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://c3okhaqulsspm" path="res://prototype_grid_light_large.png" id="4_iywne"]
@@ -30,6 +31,7 @@ sky = SubResource("Sky_x0ryr")
 [node name="World" type="Node3D" unique_id=1063087699]
 
 [node name="Client" type="Node3D" parent="." unique_id=562674025]
+script = ExtResource("1_lbhrr")
 
 [node name="PlayerListLabel" type="RichTextLabel" parent="Client" unique_id=525182088]
 offset_right = 280.0
@@ -37,21 +39,21 @@ offset_bottom = 345.0
 bbcode_enabled = true
 text = "Awaiting player information..."
 
-[node name="Floor" type="StaticBody3D" parent="Client" unique_id=1223594724]
+[node name="Map" type="StaticBody3D" parent="Client" unique_id=1223594724]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Client/Floor" unique_id=919800247]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Client/Map" unique_id=919800247]
 shape = SubResource("ConcavePolygonShape3D_lnu2h")
 
-[node name="map" parent="Client/Floor" unique_id=1941595586 instance=ExtResource("3_lbhrr")]
+[node name="map" parent="Client/Map" unique_id=1941595586 instance=ExtResource("3_lbhrr")]
 
-[node name="Map" parent="Client/Floor/map" index="0" unique_id=190159654]
+[node name="Map" parent="Client/Map/map" index="0" unique_id=190159654]
 material_override = SubResource("StandardMaterial3D_lnu2h")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Client/Floor" unique_id=1773275766]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Client/Map" unique_id=1773275766]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_lnu2h")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="Client/Floor" unique_id=1788776339]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Client/Map" unique_id=1788776339]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_lxpj2")
 
@@ -63,4 +65,4 @@ transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.371
 
 [node name="Server" type="Node3D" parent="." unique_id=1003657018]
 
-[editable path="Client/Floor/map"]
+[editable path="Client/Map/map"]

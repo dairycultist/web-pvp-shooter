@@ -21,12 +21,12 @@ func host_server(port: int) -> Error:
 		return result
 	
 	# set up scene with client/server information
-	var scene: Node3D = load("res://scenes/game.tscn").instantiate()
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	await get_tree().scene_changed
+	var scene := get_tree().current_scene
 	
 	scene.get_node("Server").multiplayer.multiplayer_peer = server
 	scene.get_node("Client").multiplayer.multiplayer_peer = client
-	
-	get_tree().change_scene_to_node(scene)
 	
 	return Error.OK
 
@@ -40,11 +40,11 @@ func join_server(address: String, port: int) -> Error:
 		return result
 	
 	# set up scene with client information
-	var scene: Node3D = load("res://scenes/game.tscn").instantiate()
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	await get_tree().scene_changed
+	var scene := get_tree().current_scene
 	
-	scene.get_node("Client").multiplayer.multiplayer_peer = client
-	
-	get_tree().change_scene_to_node(scene)
+	scene.get_node("Client").establish_multiplayer(client)
 	
 	return Error.OK
 

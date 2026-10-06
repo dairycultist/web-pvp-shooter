@@ -18,7 +18,7 @@ func _ready() -> void:
 	# ensure you can't enter invalid characters in the username field
 	username_input.text_changed.connect(func (new_text):
 		var column := username_input.caret_column
-		username_input.text = RegEx.create_from_string("[^A-Za-z0-9]+").sub(new_text, "", true)
+		username_input.text = RegEx.create_from_string("[^A-Za-z0-9_]+").sub(new_text, "", true)
 		username_input.set_caret_column(column)
 	)
 
@@ -28,7 +28,7 @@ func _on_button_down():
 	text = "Attempting to connect..."
 	failure_label.text = ""
 	
-	var ip := "0.0.0.0" if client_type == ClientType.HOST else ip_input.text.strip_edges() if ip_input.text else "127.0.0.1"
+	var ip := ip_input.text.strip_edges() if client_type == ClientType.REMOTE and ip_input.text else "127.0.0.1"
 	var port := port_input.text.to_int() if port_input.text else 19132
 	var username := username_input.text
 	
@@ -36,7 +36,7 @@ func _on_button_down():
 		failure_label.text = "Username must not be empty."
 	else:
 		
-		var result := Network.host_server(port)
+		var result := await Network.host_server(port) if client_type == ClientType.HOST else await Network.join_server(ip, port)
 		
 		match result:
 			Error.ERR_CANT_CREATE:
