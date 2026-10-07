@@ -4,7 +4,9 @@ class_name Server
 func _enter_tree() -> void:
 	
 	if Network.server.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
-		return # no local server
+		# no local server
+		queue_free()
+		return
 	
 	var api := SceneMultiplayer.new()
 	api.multiplayer_peer = Network.server

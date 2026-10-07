@@ -36,7 +36,9 @@ func _on_button_down():
 		failure_label.text = "Username must not be empty."
 	else:
 		
-		var result := Network.host_server(port) if client_type == ClientType.HOST else Network.join_server(ip, port)
+		var result := await Network.host_server(load("res://scenes/game.tscn"), port)\
+						if client_type == ClientType.HOST\
+						else await Network.join_server(load("res://scenes/game.tscn"), ip, port)
 		
 		match result:
 			Error.ERR_CANT_CREATE:

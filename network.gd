@@ -12,7 +12,7 @@ extends Node
 var server := ENetMultiplayerPeer.new()
 var client := ENetMultiplayerPeer.new()
 
-func host_server(port: int) -> Error:
+func host_server(scene: PackedScene, port: int) -> Error:
 
 	# create a local server
 	var result := server.create_server(port, 8)
@@ -28,11 +28,19 @@ func host_server(port: int) -> Error:
 		return result
 	
 	# load the scene
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	get_tree().change_scene_to_file("res://scenes/empty_networked_scene.tscn")
+	await get_tree().scene_changed
+	
+	var server_scene := scene.instantiate()
+	server_scene.get_node("ClientOnly").queue_free()
+	get_tree().current_scene.get_node("Server").add_child(server_scene)
+	
+	var client_scene := scene.instantiate()
+	get_tree().current_scene.get_node("Client").add_child(client_scene)
 	
 	return Error.OK
 
-func join_server(address: String, port: int) -> Error:
+func join_server(scene: PackedScene, address: String, port: int) -> Error:
 	
 	# create a client to connect to the remote server
 	var result := client.create_client(address, port)
@@ -41,13 +49,17 @@ func join_server(address: String, port: int) -> Error:
 		return result
 	
 	# load the scene
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	get_tree().change_scene_to_file("res://scenes/empty_networked_scene.tscn")
+	await get_tree().scene_changed
+	
+	var client_scene := scene.instantiate()
+	get_tree().current_scene.get_node("Client").add_child(client_scene)
 	
 	return Error.OK
 
 func leave_server(reason: String = "") -> void:
 	
-	get_tree().change_scene_to_file("res://scenes/title.tscn")
+	get_tree().change_scene_to_file("res://scenes/empty_networked_scene.tscn")
 	await get_tree().scene_changed
 	client.close()
 	server.close()
