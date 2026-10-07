@@ -72,6 +72,5 @@ _spawnable_scenes = PackedStringArray("uid://d18s3cdq05uem")
 spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node3D" parent="Server" unique_id=1015349618]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1000, 0)
 
 [editable path="Client/Map/Mesh"]

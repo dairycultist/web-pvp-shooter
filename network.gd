@@ -2,7 +2,8 @@ extends Node
 
 # This script provides helpers for hosting, joining, and leaving a server.
 # DON'T use this to get information about the network; use the local
-# "multiplayer" property instead.
+# "multiplayer" property instead (because the host has both the server and
+# the client, and this property tells you which one a given node is).
 
 # The server and client code focus on game logic.
 

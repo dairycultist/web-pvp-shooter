@@ -11,19 +11,28 @@ func _ready() -> void:
 	
 	# if player is on the server, make it invisible + uninteractable
 	# as to not mess with the local client
-	if multiplayer.get_unique_id() == 1:
+	if multiplayer.is_server():
 		visible = false
+		collision_layer = 0
+		collision_mask = 0
 		return
 	
 	# identify if this player is local
-	is_local = name == "Player" + str(multiplayer.get_unique_id())
+	var player_id := name.substr("Player".length()).to_int()
+	
+	is_local = player_id == multiplayer.get_unique_id()
 	
 	if is_local:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		$Camera.make_current()
-		set_multiplayer_authority(multiplayer.get_unique_id())
+	
+	# give the correct player authority
+	set_multiplayer_authority(player_id)
 
 func _physics_process(delta: float) -> void:
+	
+	var head_bone_idx: int = $Model/Armature/Skeleton3D.find_bone("Head")
+	$Model/Armature/Skeleton3D.set_bone_pose_rotation(head_bone_idx, $Camera.quaternion)
 	
 	if not is_local:
 		return
@@ -56,10 +65,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-	# visual
-	var head_bone_idx: int = $Model/Armature/Skeleton3D.find_bone("Head")
-	$Model/Armature/Skeleton3D.set_bone_pose_rotation(head_bone_idx, $Camera.quaternion)
-	
+	# animation
 	if not is_on_floor():
 		$Model/AnimationPlayer.play("Jump", 0.15)
 	elif input_dir:
