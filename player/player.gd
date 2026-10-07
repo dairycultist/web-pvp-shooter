@@ -30,6 +30,9 @@ func _enter_tree() -> void:
 		$Camera.make_current()
 		$Model.visible = false
 		$Username.visible = false
+		
+		# get our username from the parent's parent, which is the Client node
+		$Username.text = get_parent().get_parent().username
 
 func _physics_process(delta: float) -> void:
 	

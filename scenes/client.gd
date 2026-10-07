@@ -1,6 +1,7 @@
 extends Node
 class_name Client
 
+var username: String
 var _connected := false
 
 func _enter_tree() -> void:

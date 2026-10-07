@@ -12,7 +12,7 @@ extends Node
 var server := ENetMultiplayerPeer.new()
 var client := ENetMultiplayerPeer.new()
 
-func host_server(scene: PackedScene, port: int) -> Error:
+func host_server(scene: PackedScene, username: String, port: int) -> Error:
 
 	# create a local server
 	var result := server.create_server(port, 8)
@@ -37,11 +37,12 @@ func host_server(scene: PackedScene, port: int) -> Error:
 	
 	var client_scene := scene.instantiate()
 	client_scene.get_node("ServerOnly").queue_free()
+	get_tree().current_scene.get_node("Client").username = username
 	get_tree().current_scene.get_node("Client").add_child(client_scene)
 	
 	return Error.OK
 
-func join_server(scene: PackedScene, address: String, port: int) -> Error:
+func join_server(scene: PackedScene, username: String, address: String, port: int) -> Error:
 	
 	# create a client to connect to the remote server
 	var result := client.create_client(address, port)
@@ -55,6 +56,7 @@ func join_server(scene: PackedScene, address: String, port: int) -> Error:
 	
 	var client_scene := scene.instantiate()
 	client_scene.get_node("ServerOnly").queue_free()
+	get_tree().current_scene.get_node("Client").username = username
 	get_tree().current_scene.get_node("Client").add_child(client_scene)
 	
 	return Error.OK
