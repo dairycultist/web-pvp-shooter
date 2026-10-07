@@ -55,4 +55,6 @@ transform = Transform3D(1, 0, 0, 0, -0.3713914, 0.9284764, 0, -0.9284764, -0.371
 [node name="Map" parent="ClientOnly/Mesh" index="0" unique_id=190159654]
 material_override = SubResource("StandardMaterial3D_lnu2h")
 
+[node name="ServerOnly" type="Node" parent="." unique_id=129414641]
+
 [editable path="ClientOnly/Mesh"]

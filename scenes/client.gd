@@ -17,6 +17,21 @@ func _enter_tree() -> void:
 	# their _ready functions
 	get_tree().set_multiplayer(api, get_path())
 
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _process(_delta: float) -> void:
+	
+	if Input.is_action_just_pressed("escape"):
+		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			$EscapeMenu.visible = false
+			$Chat/ChatEntry.release_focus()
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			$EscapeMenu.visible = true
+			$Chat/ChatEntry.grab_focus()
+
 func _on_peer_connected(_id: int):
 	pass
 

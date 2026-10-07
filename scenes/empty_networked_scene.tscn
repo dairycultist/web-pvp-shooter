@@ -14,6 +14,56 @@ spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node3D" parent="Client" unique_id=1800292008]
 
+[node name="EscapeMenu" type="Label" parent="Client" unique_id=867725792]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 7
+text = "Press escape to return to game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Chat" type="ColorRect" parent="Client" unique_id=1031297631]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -149.0
+offset_right = 343.0
+grow_vertical = 0
+color = Color(0, 0, 0, 0.2901961)
+
+[node name="ChatEntry" type="LineEdit" parent="Client/Chat" unique_id=1569949443]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 343.0
+grow_vertical = 0
+placeholder_text = "Chat here..."
+keep_editing_on_text_submit = true
+caret_blink = true
+
+[node name="ChatMessages" type="RichTextLabel" parent="Client/Chat" unique_id=1857416606]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 6.0
+offset_right = -5.0
+offset_bottom = 116.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "a
+a
+a
+a
+a"
+scroll_following = true
+vertical_alignment = 2
+
 [node name="Server" type="Node" parent="." unique_id=1960978760]
 script = ExtResource("5_u22es")
 

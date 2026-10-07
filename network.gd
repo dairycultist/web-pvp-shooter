@@ -36,6 +36,7 @@ func host_server(scene: PackedScene, port: int) -> Error:
 	get_tree().current_scene.get_node("Server").add_child(server_scene)
 	
 	var client_scene := scene.instantiate()
+	client_scene.get_node("ServerOnly").queue_free()
 	get_tree().current_scene.get_node("Client").add_child(client_scene)
 	
 	return Error.OK
@@ -53,15 +54,17 @@ func join_server(scene: PackedScene, address: String, port: int) -> Error:
 	await get_tree().scene_changed
 	
 	var client_scene := scene.instantiate()
+	client_scene.get_node("ServerOnly").queue_free()
 	get_tree().current_scene.get_node("Client").add_child(client_scene)
 	
 	return Error.OK
 
 func leave_server(reason: String = "") -> void:
 	
-	get_tree().change_scene_to_file("res://scenes/empty_networked_scene.tscn")
+	get_tree().change_scene_to_file("res://scenes/title.tscn")
 	await get_tree().scene_changed
 	client.close()
 	server.close()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	get_tree().current_scene.get_node("DisconnectReasonLabel").text = reason

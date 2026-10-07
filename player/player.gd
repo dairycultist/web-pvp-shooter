@@ -27,8 +27,9 @@ func _enter_tree() -> void:
 	is_local = player_id == multiplayer.get_unique_id()
 	
 	if is_local:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		$Camera.make_current()
+		$Model.visible = false
+		$Username.visible = false
 
 func _physics_process(delta: float) -> void:
 	
@@ -39,16 +40,6 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	velocity += get_gravity() * delta
-	
-	if Input.is_action_just_pressed("escape"):
-		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			$EscapeMenu.visible = false
-			$Chat/ChatEntry.release_focus()
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			$EscapeMenu.visible = true
-			$Chat/ChatEntry.grab_focus()
 
 	var input_dir := Vector2.ZERO
 
