@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ch0huohdaycmc"]
 
-[ext_resource type="Script" uid="uid://cmc1usphiserr" path="res://connect_button.gd" id="1_4ignj"]
+[ext_resource type="Script" uid="uid://cmc1usphiserr" path="res://buttons/connect_button.gd" id="1_4ignj"]
 [ext_resource type="StyleBox" uid="uid://csol3exyg4fhv" path="res://stylebox.tres" id="1_wosw1"]
 
 [node name="Title" type="Control" unique_id=1370441645]

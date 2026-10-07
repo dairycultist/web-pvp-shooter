@@ -1,6 +1,8 @@
 extends Node
 class_name Client
 
+var _connected := false
+
 func _enter_tree() -> void:
 	
 	var api := SceneMultiplayer.new()
@@ -17,10 +19,10 @@ func _enter_tree() -> void:
 	# their _ready functions
 	get_tree().set_multiplayer(api, get_path())
 
-func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
 func _process(_delta: float) -> void:
+	
+	if not _connected:
+		return
 	
 	if Input.is_action_just_pressed("escape"):
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
@@ -39,7 +41,10 @@ func _on_peer_disconnected(_id: int):
 	pass
 
 func _on_connected_to_server():
-	pass
+	_connected = true
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	$Chat.visible = true
+	$AwaitingServerMenu.queue_free()
 
 func _on_connection_failed():
 	Network.leave_server("Server did not respond.")
