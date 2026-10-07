@@ -26,7 +26,7 @@ func _on_peer_connected(id: int):
 	
 	player.name = "Player" + str(id)
 	
-	$Players.add_child(player)
+	$Players.add_child(player, true)
 
 func _on_peer_disconnected(id: int):
 	

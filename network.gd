@@ -7,8 +7,6 @@ extends Node
 
 # The server and client code focus on game logic.
 
-# TODO pick up from here https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html#remote-procedure-calls
-
 var server := ENetMultiplayerPeer.new()
 var client := ENetMultiplayerPeer.new()
 

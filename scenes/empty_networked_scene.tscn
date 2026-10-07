@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bl8ttf76cd0pe" path="res://scenes/client.gd" id="1_if31l"]
 [ext_resource type="Script" uid="uid://ca7f8ru1mg8ey" path="res://scenes/disconnect_button.gd" id="2_glj6n"]
+[ext_resource type="Script" uid="uid://i6tc4c63dni3" path="res://scenes/chat.gd" id="3_eymrl"]
 [ext_resource type="Script" uid="uid://b4toqjl1ct5yc" path="res://scenes/server.gd" id="5_u22es"]
 
 [node name="World" type="Node" unique_id=682056448]
@@ -99,6 +100,7 @@ offset_top = -149.0
 offset_right = 343.0
 grow_vertical = 0
 color = Color(0, 0, 0, 0.2901961)
+script = ExtResource("3_eymrl")
 
 [node name="ChatEntry" type="LineEdit" parent="Client/Chat" unique_id=1569949443]
 layout_mode = 1
@@ -109,6 +111,7 @@ offset_top = -31.0
 offset_right = 343.0
 grow_vertical = 0
 placeholder_text = "Chat here..."
+max_length = 80
 keep_editing_on_text_submit = true
 caret_blink = true
 
@@ -121,11 +124,7 @@ offset_right = -5.0
 offset_bottom = 116.0
 grow_horizontal = 2
 bbcode_enabled = true
-text = "a
-a
-a
-a
-a"
+text = "[color=yellow]Welcome to the server![/color]"
 scroll_following = true
 vertical_alignment = 2
 
@@ -137,3 +136,6 @@ _spawnable_scenes = PackedStringArray("uid://d18s3cdq05uem")
 spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node3D" parent="Server" unique_id=1015349618]
+
+[node name="Chat" type="Node" parent="Server" unique_id=201479053]
+script = ExtResource("3_eymrl")
