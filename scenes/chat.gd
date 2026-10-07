@@ -7,15 +7,18 @@ func _ready() -> void:
 	
 	$ChatEntry.text_submitted.connect(func(new_text: String):
 		
-		send_message.rpc(get_parent().username, new_text)
+		send_message.rpc(new_text, get_parent().username)
 		
 		$ChatEntry.text = ""
 	)
 
 @rpc("any_peer", "call_local", "reliable", 0)
-func send_message(username: String, msg: String):
+func send_message(msg: String, username: String = ""):
 	
 	if multiplayer.is_server():
 		return # the server needs a node to consume the RPC
 	
-	$ChatMessages.text += "\n[color=yellow][" + username + "][/color] " + msg
+	if username:
+		$ChatMessages.text += "\n[color=yellow][" + username + "][/color] " + msg
+	else:
+		$ChatMessages.text += "\n[color=yellow]" + msg + "[/color]"
