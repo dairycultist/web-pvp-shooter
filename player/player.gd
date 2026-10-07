@@ -7,7 +7,13 @@ const MOUSE_SENSITIVITY = 0.003
 
 var is_local: bool
 
-func _ready() -> void:
+func _enter_tree() -> void:
+	
+	# identify who this player belongs to
+	var player_id := name.substr("Player".length()).to_int()
+	
+	# give the correct player authority
+	set_multiplayer_authority(player_id)
 	
 	# if player is on the server, make it invisible + uninteractable
 	# as to not mess with the local client
@@ -17,17 +23,12 @@ func _ready() -> void:
 		collision_mask = 0
 		return
 	
-	# identify if this player is local
-	var player_id := name.substr("Player".length()).to_int()
-	
+	# identify if this is the local player
 	is_local = player_id == multiplayer.get_unique_id()
 	
 	if is_local:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		$Camera.make_current()
-	
-	# give the correct player authority
-	set_multiplayer_authority(player_id)
 
 func _physics_process(delta: float) -> void:
 	
