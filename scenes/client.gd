@@ -35,11 +35,13 @@ func _process(_delta: float) -> void:
 			$EscapeMenu.visible = true
 			$Chat/ChatEntry.grab_focus()
 
-func _on_peer_connected(_id: int):
-	pass
+func _on_peer_connected(id: int):
+	
+	# send our username to the newly connected user
+	$Chat.register_id_to_username.rpc_id(id, multiplayer.get_unique_id(), username)
 
-func _on_peer_disconnected(_id: int):
-	pass
+func _on_peer_disconnected(id: int):
+	$Chat.deregister_id(id)
 
 func _on_connected_to_server():
 	_connected = true
