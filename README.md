@@ -8,6 +8,12 @@ debug texture https://mindlessdev.itch.io/prototypegrid
 
 sky https://godotengine.org/asset-library/asset/579
 
+a tiling (as opposed to rigidbody) structure system would be cool so it's easy to make forts and mazes (client RPCs server to spawn it)
+
+remember the send message RPC can lookup the sender's ID rather than have the username parameter, and the register_username_for_id doesn't need an id parameter similarly
+
+generic architecture to reference https://x.com/ArkaSerezh/status/2107486316518912415?s=20
+
 ## Setting up a server
 
 If you don't want to configure your router to port forward, you can use playit.gg.
